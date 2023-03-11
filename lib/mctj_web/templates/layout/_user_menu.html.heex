@@ -1,9 +1,9 @@
-<ul>
+<ul class="flex justify-between">
 <%= if @current_user do %>
-  <li><%= @current_user.email %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
-  <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1 " aria-current="page"><%= @current_user.email %></li>
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1" aria-current="page"><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium " aria-current="page"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
 <% else %>
-  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page"><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
 <% end %>
 </ul>
