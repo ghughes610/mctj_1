@@ -1,6 +1,6 @@
-# fly.toml file generated for mctj on 2023-03-11T11:12:07-05:00
+# fly.toml file generated for tj on 2023-03-11T12:09:56-05:00
 
-app = "mctj"
+app = "tj"
 kill_signal = "SIGTERM"
 kill_timeout = 5
 primary_region = "mia"
@@ -10,7 +10,7 @@ processes = []
   release_command = "/app/bin/migrate"
 
 [env]
-  PHX_HOST = "mctj.fly.dev"
+  PHX_HOST = "tj.fly.dev"
   PORT = "8080"
 
 [experimental]

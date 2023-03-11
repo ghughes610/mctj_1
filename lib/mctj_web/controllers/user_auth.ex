@@ -4,6 +4,7 @@ defmodule MctjWeb.UserAuth do
 
   alias Mctj.Accounts
   alias MctjWeb.Router.Helpers, as: Routes
+  require Logger
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -25,6 +26,7 @@ defmodule MctjWeb.UserAuth do
   if you are not using LiveView.
   """
   def log_in_user(conn, user, params \\ %{}) do
+    Logger.info("user ---> #{inspect(user)}")
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
 
