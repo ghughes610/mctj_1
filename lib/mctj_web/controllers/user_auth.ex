@@ -26,7 +26,6 @@ defmodule MctjWeb.UserAuth do
   if you are not using LiveView.
   """
   def log_in_user(conn, user, params \\ %{}) do
-    Logger.info("user ---> #{inspect(user)}")
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
 

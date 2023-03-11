@@ -1,0 +1,39 @@
+<h1>Listing Workouts</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.workout_index_path(@socket, :index)}>
+    <.live_component
+      module={MctjWeb.WorkoutLive.FormComponent}
+      id={@workout.id || :new}
+      title={@page_title}
+      action={@live_action}
+      workout={@workout}
+      return_to={Routes.workout_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="workouts">
+    <%= for workout <- @workouts do %>
+      <tr id={"workout-#{workout.id}"}>
+        <td><%= workout.name %></td>
+        <td><%= workout.type %></td>
+
+        <td>
+          
+          
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: workout.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
