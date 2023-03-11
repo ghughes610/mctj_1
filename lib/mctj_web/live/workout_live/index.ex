@@ -5,11 +5,8 @@ defmodule MctjWeb.WorkoutLive.Index do
   alias Mctj.Workouts.Workout
 
   @impl true
-  def mount(params, session, socket) do
-    socket =
-      assign_defaults(session, socket)
-
-    IO.inspect(socket, label: :socket)
+  def mount(_params, session, socket) do
+    socket = assign_defaults(session, socket)
 
     {:ok, assign(socket, :workouts, list_workouts())}
   end
