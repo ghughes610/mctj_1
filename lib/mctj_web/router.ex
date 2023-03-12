@@ -76,9 +76,10 @@ defmodule MctjWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     get "/users/settings", UserSettingsController, :edit
-    live "/users/workouts", WorkoutLive.Index, :index
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    live "/users/workouts", WorkoutLive.Index, :index
+    live "/users/new_workout", WorkoutLive.FormComponent, :index
   end
 
   scope "/", MctjWeb do

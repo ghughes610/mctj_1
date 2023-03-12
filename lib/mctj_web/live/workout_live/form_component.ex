@@ -2,6 +2,13 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   use MctjWeb, :live_view
 
   alias Mctj.Workouts
+  alias Mctj.Workouts.Workout
+  @impl true
+  def mount(_params, session, socket) do
+    socket = assign_defaults(session, socket)
+
+    {:ok, assign(socket, :changeset, %{})}
+  end
 
   @impl true
   def update(%{workout: workout} = assigns, socket) do
@@ -13,18 +20,25 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
      |> assign(:changeset, changeset)}
   end
 
+  # @impl true
+  # def handle_event("validate", %{"workout" => workout_params}, socket) do
+  #   changeset =
+  #     socket.assigns.workout
+  #     |> Workouts.change_workout(workout_params)
+  #     |> Map.put(:action, :validate)
+
+  #   {:noreply, assign(socket, :changeset, changeset)}
+  # end
   @impl true
-  def handle_event("validate", %{"workout" => workout_params}, socket) do
-    changeset =
-      socket.assigns.workout
-      |> Workouts.change_workout(workout_params)
-      |> Map.put(:action, :validate)
+  def handle_event("save", params , socket) do
+  IO.inspect(params, label: :params)
+    params =
+      params
+      |> Map.put("metadata", %{})
+      |> Map.put("user_id", socket.assigns.current_user.id)
 
-    {:noreply, assign(socket, :changeset, changeset)}
-  end
-
-  def handle_event("save", %{"workout" => workout_params}, socket) do
-    save_workout(socket, socket.assigns.action, workout_params)
+    socket = assign(socket, :live_action, :new)
+    save_workout(socket, socket.assigns.live_action, params)
   end
 
   defp save_workout(socket, :edit, workout_params) do
