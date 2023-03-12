@@ -27,5 +27,6 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.workout_show_path(@socket, :edit, @workout), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.workout_index_path(@socket, :index) %></span>
+<span><%= live_redirect "Back", to: Routes.workout_index_path(@socket, :index) %></span> |
+<span><%= live_redirect "Add a Circuit", to: Routes.workout_index_path(@socket, :index) %></span>
+

@@ -80,6 +80,7 @@ defmodule MctjWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     live "/users/workouts", WorkoutLive.Index, :index
     live "/users/new_workout", WorkoutLive.FormComponent, :index
+    live "/users/workouts/:id", WorkoutLive.Show
   end
 
   scope "/", MctjWeb do

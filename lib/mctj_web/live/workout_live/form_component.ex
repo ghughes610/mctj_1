@@ -2,16 +2,16 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   use MctjWeb, :live_view
 
   alias Mctj.Workouts
-  
+
   @impl true
-  def mount(_params, session, socket) do
+  def mount(params, session, socket) do
     socket = assign_defaults(session, socket)
 
     {:ok, assign(socket, :changeset, %{})}
   end
 
   @impl true
-  def update(%{workout: workout} = assigns, socket) do
+  def handle_params(%{workout: workout} = assigns, socket) do
     changeset = Workouts.change_workout(workout)
 
     {:ok,
