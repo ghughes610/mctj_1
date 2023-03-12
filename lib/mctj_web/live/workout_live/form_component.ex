@@ -2,7 +2,7 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   use MctjWeb, :live_view
 
   alias Mctj.Workouts
-  alias Mctj.Workouts.Workout
+  
   @impl true
   def mount(_params, session, socket) do
     socket = assign_defaults(session, socket)
@@ -31,7 +31,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   # end
   @impl true
   def handle_event("save", params , socket) do
-  IO.inspect(params, label: :params)
     params =
       params
       |> Map.put("metadata", %{})
