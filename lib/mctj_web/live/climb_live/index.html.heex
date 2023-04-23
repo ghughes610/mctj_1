@@ -1,0 +1,35 @@
+<div>
+  <div class="flex justify-center mt-5 text-3xl">
+    <h1>Climbs</h1>
+  </div>
+
+  <div class="w-full flex justify-center">
+    <div class="flex flex-col">
+      <!-- make this a dropdown -->
+      <div
+        phx-click="get_by_grade"
+        phx-value-grade="5.13a"
+      >
+        5.13a
+      </div>
+      <div phx-click="get_by_grade" phx-value-grade="5.13b" class="mb-3 hover:cursor-pointer">5.13b</div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <%= for climb <- @climbs do %>
+    <div
+      class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
+    >
+      <div class="flex-shrink-0"><%= climb.grade %></div>
+      <div class="min-w-0 flex-1">
+        <a href="#" class="focus:outline-none">
+          <span class="absolute inset-0" aria-hidden="true"></span>
+          <p class="text-sm font-medium text-gray-900"><%= climb.name %></p>
+          <p class="truncate text-sm text-gray-500"></p>
+        </a>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
