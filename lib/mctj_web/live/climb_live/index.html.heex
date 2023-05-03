@@ -16,20 +16,31 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-    <%= for climb <- @climbs do %>
-    <div
-      class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
-    >
-      <div class="flex-shrink-0"><%= climb.grade %></div>
-      <div class="min-w-0 flex-1">
-        <a href="#" class="focus:outline-none">
-          <span class="absolute inset-0" aria-hidden="true"></span>
-          <p class="text-sm font-medium text-gray-900"><%= climb.name %></p>
-          <p class="truncate text-sm text-gray-500"></p>
-        </a>
+
+
+  <div>
+    
+  </div>
+
+
+
+
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="mt-8 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full">
+            <%= MctjWeb.Live.ComponentsLive.TableComponents.dynamic_table_head(assigns) %>
+            <tbody class="bg-white">
+              <%= MctjWeb.Live.ComponentsLive.TableComponents.dynamic_table(assigns) %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <% end %>
   </div>
+</div>
+
+
 </div>

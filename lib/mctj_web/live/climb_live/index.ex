@@ -7,8 +7,13 @@ defmodule MctjWeb.ClimbLive.Index do
   @impl true
   def mount(_params, session, socket) do
     socket = assign_defaults(session, socket)
+    socket = assign(
+      socket,
+      # :climbs, list_climbs(),
+      :items, list_climbs()
+  )
 
-    {:ok, assign(socket, :climbs, list_climbs())}
+    {:ok, socket}
   end
 
   defp list_climbs do
@@ -17,6 +22,6 @@ defmodule MctjWeb.ClimbLive.Index do
 
   def handle_event("get_by_grade", params, socket) do
     climbs = Climbs.get_climbs_by_grade(params["grade"])
-    {:noreply, assign(socket, climbs: climbs)}
+    {:noreply, assign(socket, items: climbs)}
   end
 end
