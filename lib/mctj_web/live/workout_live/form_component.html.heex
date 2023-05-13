@@ -1,5 +1,11 @@
+<div x-data="{ open: false }">
+    <button @click="open = !open">Expand</button>
+ 
+    <span x-show="open">
+        Content...
+    </span>
+</div>
 <div>
-
   <.form
     let={f}
     for={@changeset}
