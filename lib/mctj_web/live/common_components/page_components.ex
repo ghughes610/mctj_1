@@ -200,8 +200,11 @@ defmodule MctjWeb.CommonComponents.PageComponents do
     <%= for i <- @items do %>
       <li class="col-span-1 flex rounded-md shadow-sm w-96 m-3">
         <div class={["flex-shrink-0 flex items-center justify-center w-20 bg-pink-600 text-white text-sm font-medium rounded-l-md px-3", (if i.id, do: " #{Enum.random([" bg-blue-600", " bg-red-600", "  bg-green-600", "  bg-gray-600"])}", else: " bg-blue-600") ]}>
-          <%= i.type  %>
-          <a href="/whiteboard/workout?=#{}"></a>
+          <%= link(i.type,
+            to: "/users/workouts/#{i.id}",
+            phx_value_id: i.id
+            ) %>
+
         </div>
           <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
           <div class="flex-1 truncate px-4 py-2 text-sm">

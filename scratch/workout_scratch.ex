@@ -1,32 +1,39 @@
 alias Mctj.Workouts.Workout
+alias Mctj.Repo
 
-c =
+default_shape =
   %{
+    name: "test_workout",
+    type: "power",
     layout: %{
       sets: 1,
       rest_time: 60,
       circuits: [
-        %{
-          "1" => %{
-            "exercise_1" => %{
-              "name" => "",
-              "reps" => 10,
-              "weight" => 0
+          %{
+            "circuit_1" => [
+            %{
+              "name" => "incline bench press",
+              "reps" => 8,
+              "weight" => 135,
+              "order" => 1
             },
-            "exercise_2" => %{
-              "name" => "",
-              "reps" => 10,
-              "weight" => 0
+            %{
+              "name" => "deadlift",
+              "reps" => 8,
+              "weight" => 210,
+              "order" => 2
             },
-            "exercise_3" => %{
-              "name" => "",
-              "reps" => 10,
-              "weight" => 0
+            %{
+              "name" => "max hangs",
+              "reps" => 5,
+              "weight" => 45,
+              "order" => 3
             }
-          }
+          ]
         }
       ]
     }
   }
 
-Workout.changeset(%Workout{}, c)
+changeset = Workout.changeset(%Workout{}, default_shape)
+Repo.insert!(changeset)
