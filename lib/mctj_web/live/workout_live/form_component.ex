@@ -7,6 +7,13 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   def mount(params, session, socket) do
     socket = assign_defaults(session, socket)
 
+    weeks_workouts = Workouts.list_workouts_week(Timex.now())
+    socket = assign(
+      socket,
+      items: weeks_workouts
+      # module: TrainingJournalWeb.CircuitLive
+    )
+
     {:ok, assign(socket, :changeset, %{})}
   end
 
@@ -20,17 +27,12 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
      |> assign(:changeset, changeset)}
   end
 
-  # @impl true
-  # def handle_event("validate", %{"workout" => workout_params}, socket) do
-  #   changeset =
-  #     socket.assigns.workout
-  #     |> Workouts.change_workout(workout_params)
-  #     |> Map.put(:action, :validate)
 
-  #   {:noreply, assign(socket, :changeset, changeset)}
-  # end
+
   @impl true
   def handle_event("save", params , socket) do
+
+    IO.inspect(params, label: :params)
     params =
       params
       |> Map.put("metadata", %{})
@@ -40,13 +42,36 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
     save_workout(socket, socket.assigns.live_action, params)
   end
 
+  @impl true
+  def handle_event("delete", params, socket) do
+
+
+    Workouts.delete_workout_by_id(params["id"])
+
+    weeks_workouts = Workouts.list_workouts_week(Timex.now())
+    socket = assign(
+      socket,
+      items: weeks_workouts
+      # module: TrainingJournalWeb.CircuitLive
+    )
+    {:noreply, assign(socket, :changeset, %{})}
+  end
+
+  @impl true
+  def handle_event("add_exercise", params, socket) do
+    IO.inspect(params, label: :params)
+    {:noreply, socket}
+  end
+
+
+
   defp save_workout(socket, :edit, workout_params) do
     case Workouts.update_workout(socket.assigns.workout, workout_params) do
       {:ok, _workout} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Workout updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> put_flash(:info, "Workout updated successfully")}
+         |> push_redirect(to: "/users/workouts")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -59,10 +84,40 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Workout created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: "/users/workouts")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
 end
+
+
+  #  c =
+  #     %{
+  #       layout: %{
+  #         sets: 1,
+  #         rest_time: 60,
+  #         circuits: [
+  #           %{
+  #             "1" => %{
+  #               "exercise_1" => %{
+  #                 "name" => "",
+  #                 "reps" => 10,
+  #                 "weight" => 0
+  #               },
+  #               "exercise_2" => %{
+  #                 "name" => "",
+  #                 "reps" => 10,
+  #                 "weight" => 0
+  #               },
+  #               "exercise_3" => %{
+  #                 "name" => "",
+  #                 "reps" => 10,
+  #                 "weight" => 0
+  #               }
+  #             }
+  #           }
+  #         ]
+  #       }
+  #     }

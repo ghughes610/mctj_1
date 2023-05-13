@@ -1,5 +1,7 @@
+alias Mctj.Workouts.Workout
+
 c =
-  Mctj.Workouts.Workout.changeset(%Mctj.Workouts.Workout{}, %{
+  %{
     layout: %{
       sets: 1,
       rest_time: 60,
@@ -25,6 +27,6 @@ c =
         }
       ]
     }
-  })
+  }
 
-Workout.changeset(%Workout{}, circuits)
+Workout.changeset(%Workout{}, c)

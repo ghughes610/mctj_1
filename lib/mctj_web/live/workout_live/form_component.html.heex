@@ -1,27 +1,111 @@
-<div x-data="{ open: false }">
-    <button @click="open = !open">Expand</button>
- 
-    <span x-show="open">
-        Content...
-    </span>
+<div class="flex flex-col w-full items-center bg-gray-500">
+
+  <div>
+    <p class="text-2xl uppercase font-semibold">create a workout</p>
+  </div>
+
+  
+
+
+  <div>
+    <.form
+      let={f}
+      for={@changeset}
+      id="workout-form"
+      phx-submit="save">
+    
+      <div class="w-20">
+        <%= label f, :type, class: "m-3" %>
+        <%= select(f, :type, ["Power Endurance", "Edurance", "Power" ], class: "bg-blue rounded m-3") %>
+      </div>
+
+      <div class="w-full">
+      <%= label f, :days_on, class: "m-3" %>
+      <%= select(f, :days_on, 0..5, class: "bg-blue rounded m-3") %>
+      </div>
+
+      <div class="w-full">
+      <%= label f, :freshness, class: "m-3" %>
+      <%= select(f, :freshness, Range.new(50, 100, 5), class: "bg-blue rounded m-3") %>
+      </div>
+
+      <div x-data="{ e_1_open: false }">
+        <div @click="e_1_open = !e_1_open" class="flex justify-center hover:cursor-pointer w-24 bg-blue-500 rounded m-3">Add Circuit</div>
+
+        <div x-show="e_1_open" class="flex flex-col w-52 ml-3">
+          <%= label f, "circuit sets", class: "m-3" %>
+          <%= text_input f, :circuit_sets, class: "rounded m-3" %>
+          <%= error_tag f, :circuit_sets %>
+
+          <%= label f, "exercise name", class: "m-3" %>
+          <%= text_input f, :e_1_exercise_name, class: "rounded m-3" %>
+          <%= error_tag f, :e_1_exercise_name %>
+
+          <%= label f, "reps", class: "m-3" %>
+          <%= select(f, :e_1_reps, 1..10, class: "bg-blue rounded m-3") %>
+
+          <%= label f, "weight", class: "m-3" %>
+          <%= text_input f, :e_1_weight, class: "rounded m-3" %>
+          <%= error_tag f, :e_1_weight %>
+
+          <div x-data="{ e_2_open: false }">
+            <div @click="e_2_open = !e_2_open" class="flex justify-center hover:cursor-pointer w-24 bg-blue-500 rounded m-3">Add Circuit</div>
+
+            <div x-show="e_2_open" class="flex flex-col w-52 ml-3">
+              <%= label f, "circuit sets", class: "m-3" %>
+              <%= text_input f, :e_2_circuit_sets, class: "rounded m-3" %>
+              <%= error_tag f, :e_2_circuit_sets %>
+
+              <%= label f, "exercise_name", class: "m-3" %>
+              <%= text_input f, :e_2_exercise_name, class: "rounded m-3" %>
+              <%= error_tag f, :e_2_exercise_name %>
+
+              <%= label f, "reps", class: "m-3" %>
+              <%= select(f, :e_2_reps, 1..10, class: "bg-blue rounded m-3") %>
+
+              <%= label f, :e_2_weight, class: "m-3" %>
+              <%= text_input f, :e_2_weight, class: "rounded m-3" %>
+              <%= error_tag f, :e_2_weight %>
+
+              <div x-data="{ e_3_open: false }">
+                <div @click="e_3_open = !e_3_open" class="flex justify-center hover:cursor-pointer w-24 bg-blue-500 rounded m-3">Add Circuit</div>
+
+                <div x-show="e_3_open" class="flex flex-col w-52 ml-3">
+                  <%= label f, "circuit sets", class: "m-3" %>
+                  <%= text_input f, :e_3_circuit_sets, class: "rounded m-3" %>
+                  <%= error_tag f, :e_3_circuit_sets %>
+
+                  <%= label f, "exercise_name", class: "m-3" %>
+                  <%= text_input f, :e_3_exercise_name, class: "rounded m-3" %>
+                  <%= error_tag f, :e_3_exercise_name %>
+
+                  <%= label f, "reps", class: "m-3" %>
+                  <%= select(f, :e_3_reps, 1..10, class: "bg-blue rounded m-3") %>
+
+                  <%= label f, :e_3_weight, class: "m-3" %>
+                  <%= text_input f, :e_3_weight, class: "rounded m-3" %>
+                  <%= error_tag f, :e_3_weight %>
+                </div>
+              </div>  
+
+            </div>
+          </div>  
+        </div>
+          
+      </div>  
+
+  
+
+
+      <div>
+        <%= submit "Save", phx_disable_with: "Saving...", class: "bg-green-300 rounded m-3 p-2" %>
+      </div>
+    </.form>
+  </div>
+
 </div>
+
+
 <div>
-  <.form
-    let={f}
-    for={@changeset}
-    id="workout-form"
-    phx-submit="save">
-  
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
-  
-    <%= label f, :type %>
-    <%= text_input f, :type %>
-    <%= error_tag f, :type %>
-  
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
-    </div>
-  </.form>
+  <%= MctjWeb.CommonComponents.PageComponents.workout_card(assigns) %>
 </div>

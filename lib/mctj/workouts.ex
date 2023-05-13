@@ -27,7 +27,14 @@ defmodule Mctj.Workouts do
     Repo.delete(workout)
   end
 
+  def delete_workout_by_id(id) do
+    Repo.delete(get_workout!(id))
+  end
+
   def change_workout(%Workout{} = workout, attrs \\ %{}) do
     Workout.changeset(workout, attrs)
   end
+
+  def list_workouts_week(day), do: Enum.filter(list_workouts(), &(Timex.between?(&1.inserted_at, Timex.beginning_of_week(day), Timex.end_of_week(day))))
+
 end
