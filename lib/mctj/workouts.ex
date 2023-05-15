@@ -4,7 +4,6 @@ defmodule Mctj.Workouts do
 
   alias Mctj.Workouts.Workout
 
-
   def list_workouts do
     Repo.all(Workout)
   end
@@ -35,6 +34,48 @@ defmodule Mctj.Workouts do
     Workout.changeset(workout, attrs)
   end
 
-  def list_workouts_week(day), do: Enum.filter(list_workouts(), &(Timex.between?(&1.inserted_at, Timex.beginning_of_week(day), Timex.end_of_week(day))))
+  def list_workouts_week(day),
+    do:
+      Enum.filter(
+        list_workouts(),
+        &Timex.between?(&1.inserted_at, Timex.beginning_of_week(day), Timex.end_of_week(day))
+      )
 
+  def generate_workout_name(),
+    do: "#{Timex.now() |> Timex.weekday() |> Timex.day_shortname()}_default_workout"
+
+  def generate_exercise_map(name, position, reps \\ 8, weight \\ -1, sets \\ 3) do
+    Map.put(%{}, "name", name)
+    |> Map.put("reps", reps)
+    |> Map.put("weight", weight)
+    |> Map.put("position", position)
+    |> Map.put("sets", sets)
+  end
+
+  @moduledoc """
+  this should get called first. we will save a template exercise map and update it from there
+  this will pattern match on "number_of_exercises_per_circuit" => "1" so we only need one object in list
+  """
+  def generate_circuit_map() do
+    %{
+      "circuit_1" => [
+        Map.put(%{}, "name", "default_exercise")
+        |> Map.put("reps", 8)
+        |> Map.put("weight", -1)
+        |> Map.put("position", "")
+        |> Map.put("sets", 2)
+      ]
+    }
+  end
+
+  def extract_circuits(circuits \\ []) do
+    exercises =
+      Enum.map(circuits, fn circuit ->
+        Enum.map(circuit["circuit_1"], fn exercise ->
+          exercise
+        end)
+      end)
+
+    List.flatten(exercises)
+  end
 end

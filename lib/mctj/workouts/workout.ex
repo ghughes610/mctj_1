@@ -9,8 +9,6 @@ defmodule Mctj.Workouts.Workout do
     field :metadata, :map
 
     embeds_one :layout, Layout do
-      field :sets, :integer, default: 3
-      field :rest_time, :integer, default: 90
       field :circuits, {:array, :map}, default: []
     end
 
@@ -26,6 +24,7 @@ defmodule Mctj.Workouts.Workout do
 
   def layout_changeset(layout, attrs \\ %{}) do
     layout
-    |> cast(attrs, [:sets, :rest_time, :circuits])
+    |> cast(attrs, [:circuits])
   end
+
 end

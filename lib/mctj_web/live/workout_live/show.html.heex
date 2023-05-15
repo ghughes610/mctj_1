@@ -14,17 +14,14 @@
 </ul>
 
 
-<%= for circuit <- @circuits do %>
+
+<% inspect(@circuit_1_exercises) %>
+
+<%= for exercise <- @circuit_1_exercises do %>
 <div class="flex flex-col items-center m-5">
   <div class="uppercase font-bold p-8 text-2xl underline">Circuit 1</div>
   <div class="flex flex-col items-center">
-
-    <%= for exercise <- circuit["circuit_1"] do %>
-      <div>
-        <%= exercise["name"] %> / <%= exercise["reps"] %> reps / <%= exercise["weight"] %> lb  
-      </div>
-    <% end %>
-    
+    <% inspect(exercise["name"]) %>
   </div>
 </div>
 <% end %>

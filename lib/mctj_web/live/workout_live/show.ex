@@ -5,7 +5,6 @@ defmodule MctjWeb.WorkoutLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    IO.inspect(socket.assigns, label: :socket)
     {:ok, socket}
 
   end
@@ -13,22 +12,20 @@ defmodule MctjWeb.WorkoutLive.Show do
   @impl true
   def handle_params(%{"id" => id}, stuff, socket) do
     workout = Workouts.get_workout!(id)
-    IO.inspect(workout)
 
-    circuits =
+    circuit_1_exercises =
       if workout.layout.circuits do
-        workout.layout.circuits
+       Workouts.extract_circuits(workout.layout.circuits)
       else
         [%{}]
       end
 
-      IO.inspect(circuits, label: :circuits)
-
-
+    IO.inspect(circuit_1_exercises)
 
     {:noreply,
      socket
      |> assign(:workout, Workouts.get_workout!(id))
-     |> assign(:circuits, circuits)}
+     |> assign(:circuits, workout.layout.circuits)
+     |> assign(:circuit_1_exercises, circuit_1_exercises)}
   end
 end

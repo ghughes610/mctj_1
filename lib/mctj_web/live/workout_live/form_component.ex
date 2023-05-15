@@ -27,16 +27,39 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
      |> assign(:changeset, changeset)}
   end
 
+  @impl true
+  @moduledoc """
+  If the user just clicks the save button without any entries to the form we will make the assumption that they are in a rush and these values might be defaults of sorts.
+  """
+  def handle_event("save", %{
+    "circuit_sets" => "2",
+    "days_on" => "0",
+    "freshness" => "50",
+    "number_of_circuits" => "1",
+    "type" => "Power Endurance",
+    "number_of_exercises_per_circuit" => "1"
+    } = params, socket) do
+
+    params =
+      params
+      |> Map.put("name", Workouts.generate_workout_name())
+      |> Map.put("metadata", %{"user_engagement" => "0"})
+      |> Map.put("user_id", socket.assigns.current_user.id)
+      |> Map.put("layout", %{circuits: [Workouts.generate_circuit_map()]})
+
+    socket = assign(socket, :live_action, :new)
+    save_workout(socket, socket.assigns.live_action, params)
+  end
 
 
   @impl true
   def handle_event("save", params , socket) do
 
-    IO.inspect(params, label: :params)
     params =
       params
       |> Map.put("metadata", %{})
       |> Map.put("user_id", socket.assigns.current_user.id)
+      # |> Map.put("layout", %{circuits: []})
 
     socket = assign(socket, :live_action, :new)
     save_workout(socket, socket.assigns.live_action, params)
@@ -44,8 +67,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
 
   @impl true
   def handle_event("delete", params, socket) do
-
-
     Workouts.delete_workout_by_id(params["id"])
 
     weeks_workouts = Workouts.list_workouts_week(Timex.now())
@@ -57,11 +78,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
     {:noreply, assign(socket, :changeset, %{})}
   end
 
-  @impl true
-  def handle_event("add_exercise", params, socket) do
-    IO.inspect(params, label: :params)
-    {:noreply, socket}
-  end
 
 
 
@@ -80,15 +96,19 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
 
   defp save_workout(socket, :new, workout_params) do
     case Workouts.create_workout(workout_params) do
-      {:ok, _workout} ->
+      {:ok, workout} ->
         {:noreply,
          socket
          |> put_flash(:info, "Workout created successfully")
-         |> push_redirect(to: "/users/workouts")}
+         |> push_redirect(to: "/users/workouts/#{workout.id}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp make_list(input_sting)do
+    1..String.to_integer(input_sting) |> Enum.to_list()
   end
 end
 
