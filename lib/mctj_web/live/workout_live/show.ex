@@ -6,7 +6,6 @@ defmodule MctjWeb.WorkoutLive.Show do
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
-
   end
 
   @impl true
@@ -26,5 +25,10 @@ defmodule MctjWeb.WorkoutLive.Show do
      |> assign(:circuit_1_exercises, circuit_1_exercises)
      |> assign(:circuit_2_exercises, circuit_2_exercises)
      |> assign(:circuit_3_exercises, circuit_3_exercises)}
+  end
+
+  def handle_event("complete_set", unsigned_params, socket) do
+    IO.inspect(unsigned_params, label: :unsigned_params)
+    {:noreply, socket}
   end
 end

@@ -44,13 +44,27 @@ defmodule Mctj.Workouts do
   def generate_workout_name(),
     do: "#{Timex.now() |> Timex.weekday() |> Timex.day_shortname()}_default_workout"
 
+  def generate_exercise_map() do
+    Map.put(%{}, "name", "default_exercise")
+    |> Map.put("reps", 8)
+    |> Map.put("weight", -1)
+    |> Map.put("position", "")
+    |> Map.put("sets", 2)
+    |> Map.put("completed_sets", 0)
+    |> Map.put("uuid", UUID.uuid4())
+  end
+
   def generate_exercise_map(name, position, reps \\ 8, weight \\ -1, sets \\ 3) do
     Map.put(%{}, "name", name)
     |> Map.put("reps", reps)
     |> Map.put("weight", weight)
     |> Map.put("position", position)
     |> Map.put("sets", sets)
+    |> Map.put("completed_sets", 0)
+    |> Map.put("uuid", UUID.uuid4())
   end
+
+
 
   @moduledoc """
   this should get called first. we will save a template exercise map and update it from there
@@ -59,13 +73,40 @@ defmodule Mctj.Workouts do
   def generate_circuit_map() do
     %{
       "circuit_1" => [
-        Map.put(%{}, "name", "default_exercise")
-        |> Map.put("reps", 8)
-        |> Map.put("weight", -1)
-        |> Map.put("position", "")
-        |> Map.put("sets", 2)
+        generate_exercise_map()
       ]
     }
+  end
+
+  def generate_circuit_map(number_of_circuits) do
+    case number_of_circuits do
+      "1" -> %{
+          "circuit_1" => [
+            generate_exercise_map()
+          ]
+        }
+
+      "2" -> %{
+          "circuit_1" => [
+            generate_exercise_map()
+          ],
+          "circuit_2" => [
+            generate_exercise_map()
+          ]
+        }
+
+      "3" -> %{
+          "circuit_1" => [
+            generate_exercise_map()
+          ],
+          "circuit_2" => [
+            generate_exercise_map()
+          ],
+          "circuit_3" => [
+            generate_exercise_map()
+          ]
+        }
+    end
   end
 
   def extract_circuits(circuits \\ [], circuit_name) do

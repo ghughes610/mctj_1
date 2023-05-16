@@ -51,6 +51,23 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
     save_workout(socket, socket.assigns.live_action, params)
   end
 
+  def handle_event("save", %{
+    "number_of_circuits" => number_of_circuits,
+    } = params, socket) do
+
+      IO.inspect(number_of_circuits, label: :number_of_circuits)
+
+    params =
+      params
+      |> Map.put("name", Workouts.generate_workout_name())
+      |> Map.put("metadata", %{"user_engagement" => "1"})
+      |> Map.put("user_id", socket.assigns.current_user.id)
+      |> Map.put("layout", %{circuits: [Workouts.generate_circuit_map(number_of_circuits)]})
+
+    socket = assign(socket, :live_action, :new)
+    save_workout(socket, socket.assigns.live_action, params)
+  end
+
 
   @impl true
   def handle_event("save", params , socket) do
@@ -77,9 +94,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
     )
     {:noreply, assign(socket, :changeset, %{})}
   end
-
-
-
 
   defp save_workout(socket, :edit, workout_params) do
     case Workouts.update_workout(socket.assigns.workout, workout_params) do
