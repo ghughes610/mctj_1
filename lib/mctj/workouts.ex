@@ -68,14 +68,18 @@ defmodule Mctj.Workouts do
     }
   end
 
-  def extract_circuits(circuits \\ []) do
-    exercises =
+  def extract_circuits(circuits \\ [], circuit_name) do
+    circuit_1_exercises =
       Enum.map(circuits, fn circuit ->
-        Enum.map(circuit["circuit_1"], fn exercise ->
-          exercise
-        end)
+        case Map.has_key?(circuit, circuit_name) do
+          true ->
+            Enum.map(circuit[circuit_name], fn exercise ->
+              exercise
+            end)
+          false -> []
+        end
       end)
 
-    List.flatten(exercises)
+    List.flatten(circuit_1_exercises)
   end
 end

@@ -13,19 +13,18 @@ defmodule MctjWeb.WorkoutLive.Show do
   def handle_params(%{"id" => id}, stuff, socket) do
     workout = Workouts.get_workout!(id)
 
-    circuit_1_exercises =
-      if workout.layout.circuits do
-       Workouts.extract_circuits(workout.layout.circuits)
-      else
-        [%{}]
-      end
+    circuit_1_exercises = Workouts.extract_circuits(workout.layout.circuits, "circuit_1")
 
-    IO.inspect(circuit_1_exercises)
+    circuit_2_exercises = Workouts.extract_circuits(workout.layout.circuits, "circuit_2")
+
+    circuit_3_exercises = Workouts.extract_circuits(workout.layout.circuits, "circuit_3")
 
     {:noreply,
      socket
      |> assign(:workout, Workouts.get_workout!(id))
-     |> assign(:circuits, workout.layout.circuits)
-     |> assign(:circuit_1_exercises, circuit_1_exercises)}
+     |> assign(:circuits, [circuit_1_exercises, circuit_2_exercises, circuit_1_exercises])
+     |> assign(:circuit_1_exercises, circuit_1_exercises)
+     |> assign(:circuit_2_exercises, circuit_2_exercises)
+     |> assign(:circuit_3_exercises, circuit_3_exercises)}
   end
 end
