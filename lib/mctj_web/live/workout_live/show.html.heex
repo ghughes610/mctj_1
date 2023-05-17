@@ -36,7 +36,7 @@
               <td class="whitespace-nowrap text-center text-sm text-gray-500"><%= exercise["weight"] %></td>
               <td class="whitespace-nowrap text-center text-sm text-gray-500"><%= exercise["completed_sets"] %></td>
               <td class="whitespace-nowrap text-right pr-14 text-sm text-gray-500">
-              <p class="text-2xl uppercase font-semibold text-green-400 hover:cursor-pointer" phx-click="complete_set" phx-value-id={exercise.id}>√</p>
+              
             
               </td>
             </tr>
@@ -71,6 +71,54 @@
 <% end %>
 
 <%= if !Enum.empty?(@circuit_3_exercises) do %>
+  <table class="min-w-full">
+    <tbody class="bg-white">
+      <thead class="bg-white">
+        <tr>
+          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reps</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Weight</th>
+        </tr>
+      </thead>
+      <tr class="border-t border-gray-200">
+          <div class="uppercase font-bold p-8 text-2xl underline">Circuit 3</div>
+          <%= for exercise <- @circuit_3_exercises do %>
+            <tr class="border-t border-gray-200">
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["reps"] %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["weight"] %></td>
+            </tr>
+          <% end %>
+      </tr>
+    </tbody>
+  </table>  
+<% end %>
+
+<%= if !Enum.empty?(@circuit_4_exercises) do %>
+  <table class="min-w-full">
+    <tbody class="bg-white">
+      <thead class="bg-white">
+        <tr>
+          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reps</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Weight</th>
+        </tr>
+      </thead>
+      <tr class="border-t border-gray-200">
+          <div class="uppercase font-bold p-8 text-2xl underline">Circuit 3</div>
+          <%= for exercise <- @circuit_3_exercises do %>
+            <tr class="border-t border-gray-200">
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["reps"] %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["weight"] %></td>
+            </tr>
+          <% end %>
+      </tr>
+    </tbody>
+  </table>  
+<% end %>
+
+<%= if !Enum.empty?(@circuit_5_exercises) do %>
   <table class="min-w-full">
     <tbody class="bg-white">
       <thead class="bg-white">
