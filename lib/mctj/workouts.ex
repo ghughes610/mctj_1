@@ -27,8 +27,7 @@ defmodule Mctj.Workouts do
 
     for circuit <- layout.circuits,
         {_circuit, exercise_list} <- circuit,
-        exercises <- exercise_list,
-        exercise <- exercises,
+        exercise <- exercise_list,
         exercise["uuid"] == uuid do
       exercise
     end
