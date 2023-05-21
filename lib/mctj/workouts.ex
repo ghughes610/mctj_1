@@ -25,13 +25,13 @@ defmodule Mctj.Workouts do
         workout -> workout.layout
       end
 
-      for circuit <- layout.circuits,
-          {circuit, exercise_list} <- circuit,
-          exercises <- exercise_list,
-          exercise <- exercises,
-          exercise["uuid"] == uuid do
-        exercise
-      end
+    for circuit <- layout.circuits,
+        {_circuit, exercise_list} <- circuit,
+        exercises <- exercise_list,
+        exercise <- exercises,
+        exercise["uuid"] == uuid do
+      exercise
+    end
   end
 
   def create_workout(attrs \\ %{}) do
@@ -104,9 +104,7 @@ defmodule Mctj.Workouts do
   """
   def generate_circuit_map() do
     %{
-      "circuit_1" => [
-        generate_exercise_map()
-      ]
+      "circuit_1" => generate_exercise_map()
     }
   end
 
@@ -114,67 +112,52 @@ defmodule Mctj.Workouts do
     case number_of_circuits do
       "1" ->
         %{
-          "circuit_1" => [
+          "circuit_1" =>
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ]
         }
 
       "2" ->
         %{
-          "circuit_1" => [
+          "circuit_1" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_2" =>
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_2" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ]
         }
 
       "3" ->
         %{
-          "circuit_1" => [
+          "circuit_1" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_2" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_3" =>
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_2" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_3" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ]
         }
 
       "4" ->
         %{
-          "circuit_1" => [
+          "circuit_1" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_2" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_3" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_4" =>
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_2" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_3" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_4" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ]
         }
 
       "5" ->
         %{
-          "circuit_1" => [
+          "circuit_1" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_2" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_3" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_4" =>
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit)),
+          "circuit_5" =>
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_2" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_3" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_4" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ],
-          "circuit_5" => [
-            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-          ]
         }
     end
   end
