@@ -21,7 +21,12 @@ defmodule Mctj.AreasTest do
     end
 
     test "create_area/1 with valid data creates a area" do
-      valid_attrs = %{hike_time: 42, location: "some location", name: "some name", sun_exposure: "some sun_exposure"}
+      valid_attrs = %{
+        hike_time: 42,
+        location: "some location",
+        name: "some name",
+        sun_exposure: "some sun_exposure"
+      }
 
       assert {:ok, %Area{} = area} = Areas.create_area(valid_attrs)
       assert area.hike_time == 42
@@ -36,7 +41,13 @@ defmodule Mctj.AreasTest do
 
     test "update_area/2 with valid data updates the area" do
       area = area_fixture()
-      update_attrs = %{hike_time: 43, location: "some updated location", name: "some updated name", sun_exposure: "some updated sun_exposure"}
+
+      update_attrs = %{
+        hike_time: 43,
+        location: "some updated location",
+        name: "some updated name",
+        sun_exposure: "some updated sun_exposure"
+      }
 
       assert {:ok, %Area{} = area} = Areas.update_area(area, update_attrs)
       assert area.hike_time == 43

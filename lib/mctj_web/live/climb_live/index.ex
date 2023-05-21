@@ -7,11 +7,14 @@ defmodule MctjWeb.ClimbLive.Index do
   @impl true
   def mount(_params, session, socket) do
     socket = assign_defaults(session, socket)
-    socket = assign(
-      socket,
-      # :climbs, list_climbs(),
-      :items, list_climbs()
-  )
+
+    socket =
+      assign(
+        socket,
+        # :climbs, list_climbs(),
+        :items,
+        list_climbs()
+      )
 
     {:ok, socket}
   end

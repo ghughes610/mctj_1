@@ -36,7 +36,13 @@ defmodule Mctj.ClimbsTest do
 
     test "update_climb/2 with valid data updates the climb" do
       climb = climb_fixture()
-      update_attrs = %{bolt_count: 43, grade: "some updated grade", height: 43, name: "some updated name"}
+
+      update_attrs = %{
+        bolt_count: 43,
+        grade: "some updated grade",
+        height: 43,
+        name: "some updated name"
+      }
 
       assert {:ok, %Climb{} = climb} = Climbs.update_climb(climb, update_attrs)
       assert climb.bolt_count == 43

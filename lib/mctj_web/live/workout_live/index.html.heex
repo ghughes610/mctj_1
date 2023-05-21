@@ -14,7 +14,6 @@
     <.live_component
       module={MctjWeb.WorkoutLive.FormComponent}
       id={@workout.id || :new}
-      title={@page_title}
       action={@live_action}
       workout={@workout}
       return_to={Routes.workout_index_path(@socket, :index)}

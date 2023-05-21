@@ -25,7 +25,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
       min: min,
       max: max,
       name: name
-      }
+    }
 
     ~L"""
     <div class="flex place-content-center text-cyan-50"><%= String.capitalize(@name) |> String.replace("_", " ")  %></div>
@@ -43,7 +43,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
       max: max,
       name: name,
       display_name: display_name
-      }
+    }
 
     ~L"""
     <div class="flex place-content-center text-cyan-50"><%= String.capitalize(@display_name) %></div>
@@ -60,6 +60,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
       field: field,
       display_name: display_name
     }
+
     if display_name == nil do
       ~L"""
       <div>
@@ -88,6 +89,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
       max: max,
       default: default
     }
+
     if display_name == nil do
       ~L"""
       <label for="<%= @field %>" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"><%= @field %></label>
@@ -146,6 +148,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
       display_name: display_name,
       opts: opts
     }
+
     ~L"""
     <label for="<%= @field %>" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"><%= @display_name %></label>
     <select id="<%= @field %>" name="<%= @field %>" class="block py-2 px-3 text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -310,7 +313,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
   def if_else_emoji(field, emoji_1, emoji_2) do
     if field do
       emoji_1
-     else
+    else
       emoji_2
     end
   end
@@ -333,6 +336,7 @@ defmodule MctjWeb.CommonComponents.PageComponents do
       id: true,
       field: field
     }
+
     ~L"""
     <div class={["flex-shrink-0 flex items-center justify-center w-16 bg-pink-600 text-white text-sm font-medium rounded-l-md", (if @id, do: " #{Enum.random([" bg-blue-600", " bg-red-600", "  bg-green-600", "  bg-gray-600"])}", else: " bg-blue-600") ]}>
       <%= @field %>

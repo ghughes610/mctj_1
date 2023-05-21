@@ -32,7 +32,7 @@ defmodule MctjWeb.LiveHelpers do
     <div id="modal" class="phx-modal fade-in" phx-remove={hide_modal()}>
       <div
         id="modal-content"
-        class="phx-modal-content fade-in-scale"
+        class="phx-modal-content fade-in-scale flex flex-col justify-center items-center  "
         phx-click-away={JS.dispatch("click", to: "#close")}
         phx-window-keydown={JS.dispatch("click", to: "#close")}
         phx-key="escape"

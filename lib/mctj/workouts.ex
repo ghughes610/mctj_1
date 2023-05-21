@@ -8,7 +8,31 @@ defmodule Mctj.Workouts do
     Repo.all(Workout)
   end
 
+  def list_user_workouts(id) do
+    Workout
+    |> where(user_id: ^id)
+    |> Repo.all()
+  end
+
   def get_workout!(id), do: Repo.get!(Workout, id)
+
+  def get_exercise_by_uuid(uuid) do
+    query = from w in Workout, where: fragment("layout::TEXT LIKE ?", ^"%#{uuid}%")
+
+    layout =
+      case Repo.one(query) do
+        nil -> nil
+        workout -> workout.layout
+      end
+
+      for circuit <- layout.circuits,
+          {circuit, exercise_list} <- circuit,
+          exercises <- exercise_list,
+          exercise <- exercises,
+          exercise["uuid"] == uuid do
+        exercise
+      end
+  end
 
   def create_workout(attrs \\ %{}) do
     %Workout{}
@@ -44,7 +68,6 @@ defmodule Mctj.Workouts do
   def generate_workout_name(),
     do: "#{Timex.now() |> Timex.weekday() |> Timex.day_shortname()}_default_workout"
 
-
   def call_generate_exercise_map(n), do: call_generate_exercise_map(n, [])
 
   def call_generate_exercise_map(n, acc) when n > 0 do
@@ -52,9 +75,8 @@ defmodule Mctj.Workouts do
     call_generate_exercise_map(n - 1, [exercise_map | acc])
   end
 
-  def call_generate_exercise_map(0, acc), do: Enum.reverse(acc)  # Base case: return the reversed accumulator
-
-
+  # Base case: return the reversed accumulator
+  def call_generate_exercise_map(0, acc), do: Enum.reverse(acc)
 
   def generate_exercise_map() do
     Map.put(%{}, "name", "default_exercise")
@@ -76,8 +98,6 @@ defmodule Mctj.Workouts do
     |> Map.put("uuid", UUID.uuid4())
   end
 
-
-
   @moduledoc """
   this should get called first. we will save a template exercise map and update it from there
   this will pattern match on "number_of_exercises_per_circuit" => "1" so we only need one object in list
@@ -92,13 +112,15 @@ defmodule Mctj.Workouts do
 
   def generate_circuit_map(number_of_circuits, exercises_per_circuit) do
     case number_of_circuits do
-      "1" -> %{
+      "1" ->
+        %{
           "circuit_1" => [
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
           ]
         }
 
-      "2" -> %{
+      "2" ->
+        %{
           "circuit_1" => [
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
           ],
@@ -107,50 +129,53 @@ defmodule Mctj.Workouts do
           ]
         }
 
-      "3" -> %{
+      "3" ->
+        %{
           "circuit_1" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
           ],
           "circuit_2" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
           ],
           "circuit_3" => [
             call_generate_exercise_map(String.to_integer(exercises_per_circuit))
           ]
         }
 
-      "4" -> %{
-        "circuit_1" => [
-        call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_2" => [
-        call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_3" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_4" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ]
-      }
+      "4" ->
+        %{
+          "circuit_1" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_2" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_3" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_4" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ]
+        }
 
-      "5" -> %{
-        "circuit_1" => [
-        call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_2" => [
-        call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_3" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_4" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ],
-        "circuit_5" => [
-          call_generate_exercise_map(String.to_integer(exercises_per_circuit))
-        ]
-      }
+      "5" ->
+        %{
+          "circuit_1" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_2" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_3" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_4" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ],
+          "circuit_5" => [
+            call_generate_exercise_map(String.to_integer(exercises_per_circuit))
+          ]
+        }
     end
   end
 
@@ -162,12 +187,12 @@ defmodule Mctj.Workouts do
             Enum.map(circuit[circuit_name], fn exercise ->
               exercise
             end)
-          false -> []
+
+          false ->
+            []
         end
       end)
 
     List.flatten(circuit_1_exercises)
   end
-
-
 end

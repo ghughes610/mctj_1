@@ -12,7 +12,6 @@ defmodule Mctj.Workouts.Workout do
       field :circuits, {:array, :map}, default: []
     end
 
-
     timestamps()
   end
 
@@ -26,5 +25,4 @@ defmodule Mctj.Workouts.Workout do
     layout
     |> cast(attrs, [:circuits])
   end
-
 end

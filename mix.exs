@@ -52,7 +52,7 @@ defmodule Mctj.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:timex, "~> 3.0"},
-      { :uuid, "~> 1.1" }
+      {:uuid, "~> 1.1"}
     ]
   end
 

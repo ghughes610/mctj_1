@@ -1,14 +1,16 @@
 defmodule MctjWeb.WorkoutLive.Index do
   use MctjWeb, :live_view
 
+  alias Mctj.Accounts
   alias Mctj.Workouts
   alias Mctj.Workouts.Workout
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
     socket = assign_defaults(session, socket)
 
-    {:ok, assign(socket, :workouts, list_workouts())}
+    {:ok, assign(socket, :workouts, Workouts.list_user_workouts(user.id))}
   end
 
   @impl true
@@ -45,7 +47,8 @@ defmodule MctjWeb.WorkoutLive.Index do
     workout = Workouts.get_workout!(id)
     {:ok, _} = Workouts.delete_workout(workout)
 
-    {:noreply, assign(socket, :workouts, list_workouts())}
+    {:noreply,
+     assign(socket, :workouts, Workouts.list_user_workouts(socket.assigns.current_user.id))}
   end
 
   defp list_workouts do

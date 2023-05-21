@@ -35,5 +35,4 @@ defmodule Mctj.Climbs do
   def delete_climb(%Climb{} = climb) do
     Repo.delete(climb)
   end
-
 end
