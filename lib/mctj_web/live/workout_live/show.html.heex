@@ -1,5 +1,22 @@
-<div class="flex flex-col justify-center items-center p-2 m-3">
+<div class="flex flex-col justify-center items-center p-2 m-3 bg-gray-400 w-screen h-screen">
 <h1 class="uppercase font-bold p-8 text-4xl"><%= @workout.name %></h1>
+<div class="my-20 rounded bg-green-300 p-2 hover:bg-green-500">
+  <span class="text-gray-500" phx-click="add_exercise">
+    add exercise 
+  </span>
+</div>
+
+<%= if @add_exercise in [:new] do %>
+  <.modal return_to={@workout.id}>
+    <.live_component
+      module={MctjWeb.ExerciseLive.FormComponent}
+      id={UUID.uuid4()}
+      action={@live_action}
+      workout={@workout}
+      return_to={@workout.id}
+    />
+  </.modal>
+<% end %>
 
 <ul>
   <li>
@@ -9,7 +26,6 @@
 
   <li>
     <strong>Number of circuits:</strong>
-    <%= List.first(@circuits) |> length() %>
   </li>
 </ul>
 
@@ -21,18 +37,17 @@
       id={@workout.id || :new}
       action={@live_action}
       workout={@workout}
-      exercise_id={@exercise_id}
       return_to={@workout.id}
     />
   </.modal>
 <% end %>
 
 
-<%= if !Enum.empty?(@circuit_1_exercises) do %>
+
   <table class="min-w-full">
     <tbody class="bg-white">
       <thead class="bg-white">
-        <tr>
+        <tr class="bg-gray-400">
           <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
           <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Reps</th>
           <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Weight</th>
@@ -41,121 +56,24 @@
       </thead>
       <tr class="border-t border-gray-200">
           <div class="uppercase font-bold p-8 text-2xl underline">Circuit 1</div>
-          <%= for exercise <- @circuit_1_exercises do %>
+          
             <tr class="border-t border-gray-200">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
-              <td class="whitespace-nowrap text-center text-sm text-gray-500"><%= exercise["reps"] %></td>
-              <td class="whitespace-nowrap text-center text-sm text-gray-500"><%= exercise["weight"] %></td>
-              <td class="whitespace-nowrap text-center text-sm text-gray-500"><%= exercise["completed_sets"] %></td>
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">name</td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-500">testing</td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-500">testing</td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-500">testing</td>
               <td class="flex items-center justify-end whitespace-nowrap pr-14 text-sm text-gray-500">
-                <div class="flex justify-center rounded mt-2 p-1 bg-blue-300 w-20 hover:bg-green-300" phx-click="edit" phx-value-id={exercise["uuid"]}>
+                <div class="flex justify-center rounded mt-2 p-1 bg-blue-300 w-20 hover:bg-green-300" phx-click="edit" phx-value-id="id">
                   <p>Edit</p>
                 </div>
               
               </td>
             </tr>
-          <% end %>
+          
       </tr>
     </tbody>
   </table>  
-<% end %>
 
-
-<%= if !Enum.empty?(@circuit_2_exercises) do %>
-  <table class="min-w-full">
-    <tbody class="bg-white">
-      <thead class="bg-white">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reps</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Weight</th>
-        </tr>
-      </thead>
-      <tr class="border-t border-gray-200">
-          <div class="uppercase font-bold p-8 text-2xl underline">Circuit 2</div>
-          <%= for exercise <- @circuit_2_exercises do %>
-            <tr class="border-t border-gray-200">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["reps"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["weight"] %></td>
-            </tr>
-          <% end %>
-      </tr>
-    </tbody>
-  </table>  
-<% end %>
-
-<%= if !Enum.empty?(@circuit_3_exercises) do %>
-  <table class="min-w-full">
-    <tbody class="bg-white">
-      <thead class="bg-white">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reps</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Weight</th>
-        </tr>
-      </thead>
-      <tr class="border-t border-gray-200">
-          <div class="uppercase font-bold p-8 text-2xl underline">Circuit 3</div>
-          <%= for exercise <- @circuit_3_exercises do %>
-            <tr class="border-t border-gray-200">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["reps"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["weight"] %></td>
-            </tr>
-          <% end %>
-      </tr>
-    </tbody>
-  </table>  
-<% end %>
-
-<%= if !Enum.empty?(@circuit_4_exercises) do %>
-  <table class="min-w-full">
-    <tbody class="bg-white">
-      <thead class="bg-white">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reps</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Weight</th>
-        </tr>
-      </thead>
-      <tr class="border-t border-gray-200">
-          <div class="uppercase font-bold p-8 text-2xl underline">Circuit 3</div>
-          <%= for exercise <- @circuit_3_exercises do %>
-            <tr class="border-t border-gray-200">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["reps"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["weight"] %></td>
-            </tr>
-          <% end %>
-      </tr>
-    </tbody>
-  </table>  
-<% end %>
-
-<%= if !Enum.empty?(@circuit_5_exercises) do %>
-  <table class="min-w-full">
-    <tbody class="bg-white">
-      <thead class="bg-white">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reps</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Weight</th>
-        </tr>
-      </thead>
-      <tr class="border-t border-gray-200">
-          <div class="uppercase font-bold p-8 text-2xl underline">Circuit 3</div>
-          <%= for exercise <- @circuit_3_exercises do %>
-            <tr class="border-t border-gray-200">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= exercise["name"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["reps"] %></td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= exercise["weight"] %></td>
-            </tr>
-          <% end %>
-      </tr>
-    </tbody>
-  </table>  
-<% end %>
 
 <div class="mt-20 rounded bg-blue-300 p-2 hover:bg-green-300">
   <span class="text-gray-500"><%= live_redirect "Back to workouts", to: Routes.workout_index_path(@socket, :index) %></span>

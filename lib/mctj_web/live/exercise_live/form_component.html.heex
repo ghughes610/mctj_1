@@ -1,0 +1,35 @@
+<div>
+  <h2></h2>
+
+  <.form
+    let={f}
+    for={%{}}
+    id="exercise-form"
+    phx-change="validate"
+    phx-submit="save_exercise">
+  
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  
+    <%= label f, :reps %>
+    <%= text_input f, :reps %>
+    <%= error_tag f, :reps %>
+  
+    <%= label f, :weight %>
+    <%= text_input f, :weight %>
+    <%= error_tag f, :weight %>
+  
+    <%= label f, :metadata %>
+    <%= text_input f, :metadata %>
+    <%= error_tag f, :metadata %>
+  
+    <%= label f, :workout_id %>
+    <%= number_input f, :workout_id %>
+    <%= error_tag f, :workout_id %>
+  
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

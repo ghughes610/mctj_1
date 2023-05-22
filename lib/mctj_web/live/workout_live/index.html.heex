@@ -1,46 +1,46 @@
-<div class="flex justify-center mt-5 text-3xl">
-  <h1>My Workouts</h1>
-</div>
-<div class="flex justify-center mt-5 text-3xl">
-<span class="relative z-10 rounded-full bg-gray-100 py-1.5 px-3 font-medium text-gray-600 hover:bg-green-300">
- <%= live_redirect "Create a workout", to: Routes.workout_form_component_path(@socket, :index) %>
- 
-</span>
-  
-</div>
+<div class="bg-gray-400 h-screen">
+  <div class="flex justify-center mt-5 text-3xl">
+    <h1>My Workouts</h1>
+  </div>
+  <div class="flex justify-center mt-5 text-3xl">
+  <span class="relative z-10 rounded-full bg-gray-100 py-1.5 px-3 font-medium text-gray-600 hover:bg-green-300">
+  <%= live_redirect "Create a workout", to: Routes.workout_form_component_path(@socket, :index) %>
+  </span>
+    
+  </div>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.workout_index_path(@socket, :index)}>
-    <.live_component
-      module={MctjWeb.WorkoutLive.FormComponent}
-      id={@workout.id || :new}
-      action={@live_action}
-      workout={@workout}
-      return_to={Routes.workout_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
-
-<div class="mb-10 mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-200 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-  <%= for workout <- @workouts do %>
-    <article id={"workout-#{workout.id}"} class="drop-shadow-md ml-4 max-w-xl flex-col items-start justify-between">
-    <div class="flex items-center gap-x-4 text-xs ">
-      <time datetime="2020-03-16" class="text-gray-500"><%= Timex.format!(workout.inserted_at, "{0M}-{D}-{YYYY}") %></time>
-      <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600">
-        <%= workout.type %>
-      </span>
-      <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600 hover:bg-gray-100">
-        <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: workout.id, data: [confirm: "Are you sure?"] %>
-      </span>
-      
-      </div>
-      <div class="group relative">
-        <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-500">
-              <%= live_patch "#{workout.name}", to: Routes.live_path(@socket, MctjWeb.WorkoutLive.Show, workout), class: "button" %>
-        </h3>
-        <p class="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">Power day going to do a 4x4 and some</p>
-      </div>
-    </article>
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal return_to={Routes.workout_index_path(@socket, :index)}>
+      <.live_component
+        module={MctjWeb.WorkoutLive.FormComponent}
+        id={@workout.id || :new}
+        action={@live_action}
+        workout={@workout}
+        return_to={Routes.workout_index_path(@socket, :index)}
+      />
+    </.modal>
   <% end %>
+
+  <div class="mb-10 mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-200 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+    <%= for workout <- @workouts do %>
+      <article id={"workout-#{workout.id}"} class="p-4 drop-shadow-md ml-4 max-w-xl flex-col items-start justify-between bg-cyan-300 rounded-lg max-w-sm">
+      <div class="flex items-center gap-x-4 text-xs ">
+        <time datetime="29020-03-16" class="text-gray-500"><%= Timex.format!(workout.inserted_at, "{0M}-{D}-{YYYY}") %></time>
+        <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600">
+          <%= workout.type %>
+        </span>
+        <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600 hover:bg-gray-100">
+          <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: workout.id, data: [confirm: "Are you sure?"] %>
+        </span>
+        
+        </div>
+        <div class="group relative">
+          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-500">
+                <%= live_patch "#{workout.name}", to: Routes.live_path(@socket, MctjWeb.WorkoutLive.Show, workout), class: "button" %>
+          </h3>
+        </div>
+      </article>
+    <% end %>
+  </div>
 </div>
-  
+
