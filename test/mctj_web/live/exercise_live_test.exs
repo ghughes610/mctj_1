@@ -4,8 +4,20 @@ defmodule MctjWeb.ExerciseLiveTest do
   import Phoenix.LiveViewTest
   import Mctj.ExercisesFixtures
 
-  @create_attrs %{metadata: %{}, name: "some name", reps: "some reps", weight: "some weight", workout_id: 42}
-  @update_attrs %{metadata: %{}, name: "some updated name", reps: "some updated reps", weight: "some updated weight", workout_id: 43}
+  @create_attrs %{
+    metadata: %{},
+    name: "some name",
+    reps: "some reps",
+    weight: "some weight",
+    workout_id: 42
+  }
+  @update_attrs %{
+    metadata: %{},
+    name: "some updated name",
+    reps: "some updated reps",
+    weight: "some updated weight",
+    workout_id: 43
+  }
   @invalid_attrs %{metadata: nil, name: nil, reps: nil, weight: nil, workout_id: nil}
 
   defp create_exercise(_) do

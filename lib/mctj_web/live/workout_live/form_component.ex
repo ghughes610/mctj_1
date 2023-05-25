@@ -13,7 +13,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
       assign(
         socket,
         items: weeks_workouts
-        # module: TrainingJournalWeb.CircuitLive
       )
 
     {:ok, assign(socket, :changeset, %{})}
@@ -29,44 +28,15 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
      |> assign(:changeset, changeset)}
   end
 
-  @impl true
-  @moduledoc """
-  If the user just clicks the save button without any entries to the form we will make the assumption that they are in a rush and these values might be defaults of sorts.
-  """
-  def handle_event(
-        "save",
-        %{
-          "circuit_sets" => "2",
-          "days_on" => "0",
-          "freshness" => "50",
-          "number_of_circuits" => "1",
-          "type" => "Power Endurance",
-          "number_of_exercises_per_circuit" => "1"
-        } = params,
-        socket
-      ) do
-    params =
-      params
-      |> Map.put("name", Workouts.generate_workout_name())
-      |> Map.put("metadata", %{"user_engagement" => "0"})
-      |> Map.put("user_id", socket.assigns.current_user.id)
-
-    socket = assign(socket, :live_action, :new)
-    save_workout(socket, socket.assigns.live_action, params)
-  end
-
   def handle_event(
         "save",
         params,
         socket
       ) do
-
     params =
       params
       |> Map.put("name", Workouts.generate_workout_name())
-      |> Map.put("metadata", %{"user_engagement" => "1"})
       |> Map.put("user_id", socket.assigns.current_user.id)
-
 
     socket = assign(socket, :live_action, :new)
     save_workout(socket, socket.assigns.live_action, params)
@@ -129,32 +99,3 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
     1..String.to_integer(input_sting) |> Enum.to_list()
   end
 end
-
-#  c =
-#     %{
-#       layout: %{
-#         sets: 1,
-#         rest_time: 60,
-#         circuits: [
-#           %{
-#             "1" => %{
-#               "exercise_1" => %{
-#                 "name" => "",
-#                 "reps" => 10,
-#                 "weight" => 0
-#               },
-#               "exercise_2" => %{
-#                 "name" => "",
-#                 "reps" => 10,
-#                 "weight" => 0
-#               },
-#               "exercise_3" => %{
-#                 "name" => "",
-#                 "reps" => 10,
-#                 "weight" => 0
-#               }
-#             }
-#           }
-#         ]
-#       }
-#     }

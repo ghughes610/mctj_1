@@ -1,34 +1,30 @@
-<div>
+<div class="flex flex-col justify-center">
   <h2></h2>
 
   <.form
     let={f}
     for={%{}}
     id="exercise-form"
-    phx-change="validate"
-    phx-submit="save_exercise">
+    phx-submit="save_exercise"
+    >
   
-    <%= label f, :name %>
-    <%= text_input f, :name %>
+    <%= label f, :name%>
+    <%= text_input f, :name, [required: true, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
     <%= error_tag f, :name %>
   
     <%= label f, :reps %>
-    <%= text_input f, :reps %>
+    <%= text_input f, :reps, [required: true, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
     <%= error_tag f, :reps %>
   
     <%= label f, :weight %>
-    <%= text_input f, :weight %>
+    <%= text_input f, :weight, [required: true, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
     <%= error_tag f, :weight %>
   
-    <%= label f, :metadata %>
-    <%= text_input f, :metadata %>
-    <%= error_tag f, :metadata %>
-  
-    <%= label f, :workout_id %>
-    <%= number_input f, :workout_id %>
-    <%= error_tag f, :workout_id %>
-  
-    <div>
+    <%= label f, :circuit_number %>
+    <%= text_input f, :circuit_number, [class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
+    <%= error_tag f, :circuit_number %>
+
+    <div class="flex justify-center m-5 rounded bg-green-300">
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
   </.form>

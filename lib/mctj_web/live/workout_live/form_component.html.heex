@@ -1,3 +1,5 @@
+<div class="flex flex-col">
+
 <div class="flex flex-col w-full items-center bg-gray-400 py-5">
 
   <div class="pb-5">
@@ -9,50 +11,55 @@
       let={f}
       for={@changeset}
       id="workout-form"
-      phx-submit="save">
+      phx-submit="save"
+      class="space-y-4">
+
+
+      
     
-      <div>
-        <%= label f, :type, class: "m-3" %>
-        <%= select(f, :type, ["Power Endurance", "Edurance", "Power" ], class: "bg-blue rounded m-3") %>
+      <div class="flex flex-row">
+        <%= label f, :type, [required: true, class: "block pr-5 rounded-md border-0 py-1.5 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
+
+        <%= select(f, :type, ["Power Endurance", "Edurance", "Power"],  class: "block w-44  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") %>
       </div>
 
-      <div class="w-full">
-      <%= label f, :days_on, class: "m-3" %>
-      <%= select(f, :days_on, 0..5, class: "bg-blue rounded m-3") %>
+      <div class="flex flex-row">
+        <%= label f, :days_on, [required: true, class: "block pr-5 rounded-md border-0 py-1.5 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
+
+        <%= select(f, :days_on, 0..5,  class: "block rounded-md border-0 py-1.5 w-36 mr-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") %>
       </div>
 
-      <div class="w-full">
-      <%= label f, :freshness, class: "m-3" %>
-      <%= select(f, :freshness, Range.new(50, 100, 5), class: "bg-blue rounded m-3") %>
-      </div>
-            
-      <div class="w-full">
-        <%= label f, "Number of Circuits", class: "m-3" %>
-        <%= select(f, :number_of_circuits, 1..5, class: "bg-blue rounded m-3") %>
+      <div class="flex flex-row">
+        <%= label f, :freshness, [required: true, class: "block pr-5 rounded-md border-0 py-1.5 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
+
+        <%= select(f, :freshness, Range.new(50, 100, 10),  class: "block rounded-md border-0 w-32  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") %>
       </div>
 
-      <div class="w-full">
-        <%= label f, "Number of Exercises per Circuit", class: "m-3" %>
-        <%= select(f, :number_of_exercises_per_circuit, 1..5, class: "bg-blue rounded m-3") %>
+      <div class="flex flex-row">
+        <%= label f, "Number of Circuits", [required: true, class: "block pr-5 rounded-md border-0 py-1.5 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
+
+        <%= select(f, :number_of_circuits, 1..5, class: "block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") %>
       </div>
 
-      <div>
-        <%= label f, "Sets per circuit", class: "m-3 pr-14" %>
-        <%= select(f, :circuit_sets, 2..5, class: "bg-blue rounded m-3") %>
+      <div class="flex flex-row">
+        <%= label f, "Sets Per Circuit", [required: true, class: "block pr-5 rounded-md border-0 py-1.5 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"] %>
+
+        <%= select(f, :sets, 2..5, class: "block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") %>
       </div>
+          
 
       <div class="flex flex-col items-center">
         <%= submit "Save", phx_disable_with: "Saving...", class: "w-20 bg-green-300 rounded m-3 p-2" %>
       </div>
     </.form>
   </div>
-
 </div>
 
-  <div class="bg-cyan-200 flex flex-col items-center pt-5">
+  <div class="bg-cyan-200 flex flex-col items-center pt-5 h-1/2">
     <div class="text-3xl font-semibold text">This weeks workouts</div>
+    <div class="h-full flex flex-row justify-center items-center bg-cyan-200">
+      <%= MctjWeb.CommonComponents.PageComponents.workout_card(assigns) %>
+    </div>
   </div>
-  <div class="h-48 flex flex-row justify-center items-center bg-cyan-200">
-
-    <%= MctjWeb.CommonComponents.PageComponents.workout_card(assigns) %>
-  </div>
+  
+</div>

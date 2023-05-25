@@ -21,7 +21,13 @@ defmodule Mctj.ExercisesTest do
     end
 
     test "create_exercise/1 with valid data creates a exercise" do
-      valid_attrs = %{metadata: %{}, name: "some name", reps: "some reps", weight: "some weight", workout_id: 42}
+      valid_attrs = %{
+        metadata: %{},
+        name: "some name",
+        reps: "some reps",
+        weight: "some weight",
+        workout_id: 42
+      }
 
       assert {:ok, %Exercise{} = exercise} = Exercises.create_exercise(valid_attrs)
       assert exercise.metadata == %{}
@@ -37,7 +43,14 @@ defmodule Mctj.ExercisesTest do
 
     test "update_exercise/2 with valid data updates the exercise" do
       exercise = exercise_fixture()
-      update_attrs = %{metadata: %{}, name: "some updated name", reps: "some updated reps", weight: "some updated weight", workout_id: 43}
+
+      update_attrs = %{
+        metadata: %{},
+        name: "some updated name",
+        reps: "some updated reps",
+        weight: "some updated weight",
+        workout_id: 43
+      }
 
       assert {:ok, %Exercise{} = exercise} = Exercises.update_exercise(exercise, update_attrs)
       assert exercise.metadata == %{}
