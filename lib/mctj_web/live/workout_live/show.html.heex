@@ -7,13 +7,13 @@
 </div>
 
 <%= if @add_exercise in [:new] do %>
-  <.modal return_to={"workouts"}>
+  <.modal return_to={Routes.workout_index_path(@socket, :index)}>
     <.live_component
       module={MctjWeb.ExerciseLive.FormComponent}
       id={UUID.uuid4()}
       action={@live_action}
       workout={@workout}
-      return_to={"workouts"}
+      return_to={Routes.workout_index_path(@socket, :index)}
     />
   </.modal>
 <% end %>

@@ -99,9 +99,6 @@ defmodule MctjWeb.WorkoutLive.Show do
     else
       "border-t bg-green-200"
     end
-
-    IO.inspect(result, label: :result)
-
   end
 
 end
