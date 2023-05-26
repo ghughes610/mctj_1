@@ -9,3 +9,8 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Mctj.Repo
+alias Mctj.Climbs.Climb
+
+Repo.insert!(Climb.changeset(%Climb{}, %{name: "Climb 1", grade: "5.10a"}))

@@ -48,5 +48,5 @@ defmodule Mctj.Workouts do
       )
 
   def generate_workout_name(),
-    do: "#{Timex.now() |> Timex.weekday() |> Timex.day_shortname()}_default_workout"
+    do: "#{Timex.now() |> Timex.weekday() |> Timex.day_name()}'s Workout"
 end

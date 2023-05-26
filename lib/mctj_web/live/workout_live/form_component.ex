@@ -63,7 +63,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
       assign(
         socket,
         items: weeks_workouts
-        # module: TrainingJournalWeb.CircuitLive
       )
 
     {:noreply, assign(socket, :changeset, %{})}
