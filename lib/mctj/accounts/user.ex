@@ -9,6 +9,7 @@ defmodule Mctj.Accounts.User do
     field :confirmed_at, :naive_datetime
 
     has_many :workouts, Mctj.Workouts.Workout
+    has_many :user_climbs, Mctj.UserClimbs.UserClimb
 
     timestamps()
   end

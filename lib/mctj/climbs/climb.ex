@@ -11,6 +11,7 @@ defmodule Mctj.Climbs.Climb do
     field :wall_id, :id
 
     timestamps()
+    has_many :user_climbs, Mctj.UserClimbs.Userclimb
   end
 
   @doc false

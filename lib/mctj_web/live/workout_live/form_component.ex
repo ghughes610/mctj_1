@@ -6,7 +6,6 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   @impl true
   def mount(params, session, socket) do
     socket = assign_defaults(session, socket)
-    IO.inspect(socket.assigns.current_user.id)
 
     weeks_workouts = Workouts.list_workouts_week(Timex.now(), socket.assigns.current_user.id)
 

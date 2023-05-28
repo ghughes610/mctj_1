@@ -8,26 +8,6 @@ defmodule MctjWeb.ExerciseLive.FormComponent do
     {:ok, socket}
   end
 
-  # @impl true
-  # def update(%{exercise: exercise} = assigns, socket) do
-  #   changeset = Exercises.change_exercise(exercise)
-
-  #   {:ok,
-  #    socket
-  #    |> assign(assigns)
-  #    |> assign(:changeset, changeset)}
-  # end
-
-  # @impl true
-  # def handle_event("validate", %{"exercise" => exercise_params}, socket) do
-  #   changeset =
-  #     socket.assigns.exercise
-  #     |> Exercises.change_exercise(exercise_params)
-  #     |> Map.put(:action, :validate)
-
-  #   {:noreply, assign(socket, :changeset, changeset)}
-  # end
-
   def handle_event("save", %{"exercise" => exercise_params}, socket) do
     socket = assign(socket, action: :new)
     save_exercise(socket, socket.assigns.action, exercise_params)

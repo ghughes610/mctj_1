@@ -81,84 +81,6 @@ defmodule MctjWeb.CommonComponents.PageComponents do
     end
   end
 
-  def make_number_input(field, display_name \\ nil, min \\ 0, max \\ 10, default \\ 5) do
-    assigns = %{
-      field: field,
-      display_name: display_name,
-      min: min,
-      max: max,
-      default: default
-    }
-
-    if display_name == nil do
-      ~L"""
-      <label for="<%= @field %>" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"><%= @field %></label>
-      <input type="number" id="<%= @field %>"
-        placeholder="<%= String.capitalize(@field) %>"
-        name="<%= @field %>"
-        min="<%= @min %>"
-        max="<%= @max %>"
-        value="<%= @default %>"
-        class="m-3 p-2 text-center border border-green-500"
-      />
-      """
-    else
-      ~L"""
-      <label for="<%= @field %>" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"><%= @display_name %></label>
-      <input
-        id="<%= @field %>"
-        type="number"
-        placeholder="<%= @display_name %>"
-        name="<%= @field %>"
-        min="<%= @min %>"
-        max="<%= @max %>"
-        value="<%= @default %>"
-        class="m-3 p-2 text-center border border-green-500"
-      />
-      """
-    end
-  end
-
-  def make_radio_button(field, display_name \\ nil) do
-    assigns = %{
-      field: field,
-      display_name: display_name
-    }
-
-    if display_name == nil do
-      ~L"""
-      <div class="flex items-center mb-4">
-      <input id="default-checkbox" name="<%= @field %>" type="checkbox" value="true" class="ml-3 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-      <label for="default-checkbox" class="ml-3 text-xl font-medium text-gray-900 dark:text-gray-300"><%= @field %></label>
-      </div>
-      """
-    else
-      ~L"""
-      <div class="flex items-center mb-4">
-      <input id="default-checkbox" name="<%= @field %>" type="checkbox" value="true" class="ml-3 w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-      <label for="default-checkbox" class="ml-3 text-xl font-medium text-gray-900 dark:text-gray-300"><%= @display_name %></label>
-      </div>
-      """
-    end
-  end
-
-  def make_select_menu(field, display_name \\ nil, opts \\ []) do
-    assigns = %{
-      field: field,
-      display_name: display_name,
-      opts: opts
-    }
-
-    ~L"""
-    <label for="<%= @field %>" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"><%= @display_name %></label>
-    <select id="<%= @field %>" name="<%= @field %>" class="block py-2 px-3 text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      <%= for opt <- @opts do %>
-        <option value="<%= opt %>"><%= opt %></option>
-      <% end %>
-    </select>
-    """
-  end
-
   def circuit_card(assigns) do
     ~H"""
       <%= for i <- @items do %>
@@ -202,7 +124,8 @@ defmodule MctjWeb.CommonComponents.PageComponents do
     ~H"""
     <%= for i <- @items do %>
       <li class="col-span-1 flex rounded-md shadow-sm w-96 m-3">
-        <div class={["flex-shrink-0 flex items-center justify-center w-20 bg-pink-600 text-white text-sm font-medium rounded-l-md px-3", (if i.id, do: " #{Enum.random([" bg-blue-600", " bg-red-600", "  bg-green-600", "  bg-gray-600"])}", else: " bg-blue-600") ]}>
+
+        <div class={["flex-shrink-0 flex items-center justify-center w-20 text-white text-sm font-medium rounded-l-md px-3", (if i.id, do: " #{Enum.random([" bg-gray-900", " bg-purple-700", "  bg-green-900", "  bg-gray-600"])}", else: " bg-blue-600") ]}>
           <%= link(i.type,
             to: "/users/workouts/#{i.id}",
             phx_value_id: i.id
@@ -210,11 +133,9 @@ defmodule MctjWeb.CommonComponents.PageComponents do
 
         </div>
           <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
+
           <div class="flex-1 truncate px-4 py-2 text-sm">
-            <a class="font-medium text-gray-900 hover:text-gray-600">
-            go to next screen that gets the workout by id
-            </a>
-            <p class="text-2xl"><%= if_else_emoji(i.metadata["morning_workout"], "☀️", "🌗") %></p>
+            <%= icon_type(i.type, assigns) %>
             <p class="text-gray-500"><%= Timex.format!(i.inserted_at, "{M}/{D}/{YYYY}") %></p>
           </div>
           <div class="flex-shrink-0 pr-2">
@@ -310,11 +231,29 @@ defmodule MctjWeb.CommonComponents.PageComponents do
     """
   end
 
-  def if_else_emoji(field, emoji_1, emoji_2) do
-    if field do
-      emoji_1
-    else
-      emoji_2
+  def icon_type(field, assigns) do
+    case field do
+      "Power Endurance" ->
+        ~H"""
+        <div class="flex flex-row">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43l-1.43-1.43L22 16.29l-1.43-1.43Z"/></svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M17 4a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"/><path fill-rule="evenodd" d="M6.21 6.047a5.019 5.019 0 0 1 4.637-.357a1.817 1.817 0 0 1 .569 2.955l-1.654 1.654a.84.84 0 0 0 .056 1.24l.997.83a2.6 2.6 0 0 1 .935 1.998V16a.75.75 0 0 1-1.5 0v-1.633a1.1 1.1 0 0 0-.396-.846l-.996-.83A2.34 2.34 0 0 1 8.7 9.238l1.654-1.654a.317.317 0 0 0-.1-.516a3.518 3.518 0 0 0-3.25.25L4.898 8.637a.75.75 0 0 1-.795-1.272L6.21 6.047ZM11.75 10a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Zm-4.22 3.47a.75.75 0 0 1 0 1.06l-.328.329a68.32 68.32 0 0 0-.085.085c-.494.495-.885.886-1.393 1.097c-.509.21-1.061.21-1.76.21l-.12-.001H3a.75.75 0 0 1 0-1.5h.843c.879 0 1.11-.013 1.307-.095c.198-.082.37-.236.991-.857l.329-.328a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"/><path d="M3.087 22h16.402a2.511 2.511 0 1 0-.433-4.985l-.163.029L20.033 9v-.003c.053-.35.085-.553.124-.699a.63.63 0 0 1 .04-.115l.006-.012l.002-.001l.01-.007a.635.635 0 0 1 .114-.046c.145-.046.346-.087.695-.157l1.123-.225a.75.75 0 1 0-.294-1.47l-1.157.23c-.303.062-.589.119-.823.194a1.73 1.73 0 0 0-.755.447c-.227.238-.34.51-.41.776c-.064.237-.107.525-.153.832l-.005.034l-1.21 8.538L2.9 19.843A1.087 1.087 0 0 0 3.086 22Z"/></g></svg>
+        </div>
+        """
+      "Power" ->
+        ~H"""
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43l-1.43-1.43L22 16.29l-1.43-1.43Z"/></svg>
+        """
+      "Endurance" ->
+        ~H"""
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M17 4a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"/><path fill-rule="evenodd" d="M6.21 6.047a5.019 5.019 0 0 1 4.637-.357a1.817 1.817 0 0 1 .569 2.955l-1.654 1.654a.84.84 0 0 0 .056 1.24l.997.83a2.6 2.6 0 0 1 .935 1.998V16a.75.75 0 0 1-1.5 0v-1.633a1.1 1.1 0 0 0-.396-.846l-.996-.83A2.34 2.34 0 0 1 8.7 9.238l1.654-1.654a.317.317 0 0 0-.1-.516a3.518 3.518 0 0 0-3.25.25L4.898 8.637a.75.75 0 0 1-.795-1.272L6.21 6.047ZM11.75 10a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Zm-4.22 3.47a.75.75 0 0 1 0 1.06l-.328.329a68.32 68.32 0 0 0-.085.085c-.494.495-.885.886-1.393 1.097c-.509.21-1.061.21-1.76.21l-.12-.001H3a.75.75 0 0 1 0-1.5h.843c.879 0 1.11-.013 1.307-.095c.198-.082.37-.236.991-.857l.329-.328a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"/><path d="M3.087 22h16.402a2.511 2.511 0 1 0-.433-4.985l-.163.029L20.033 9v-.003c.053-.35.085-.553.124-.699a.63.63 0 0 1 .04-.115l.006-.012l.002-.001l.01-.007a.635.635 0 0 1 .114-.046c.145-.046.346-.087.695-.157l1.123-.225a.75.75 0 1 0-.294-1.47l-1.157.23c-.303.062-.589.119-.823.194a1.73 1.73 0 0 0-.755.447c-.227.238-.34.51-.41.776c-.064.237-.107.525-.153.832l-.005.034l-1.21 8.538L2.9 19.843A1.087 1.087 0 0 0 3.086 22Z"/></g></svg>
+        """
+      _ -> ~H"""
+      <span class="text-2xl">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M17 4a2 2 0 1 1-4 0a2 2 0 0 1 4 0Z"/><path fill-rule="evenodd" d="M6.21 6.047a5.019 5.019 0 0 1 4.637-.357a1.817 1.817 0 0 1 .569 2.955l-1.654 1.654a.84.84 0 0 0 .056 1.24l.997.83a2.6 2.6 0 0 1 .935 1.998V16a.75.75 0 0 1-1.5 0v-1.633a1.1 1.1 0 0 0-.396-.846l-.996-.83A2.34 2.34 0 0 1 8.7 9.238l1.654-1.654a.317.317 0 0 0-.1-.516a3.518 3.518 0 0 0-3.25.25L4.898 8.637a.75.75 0 0 1-.795-1.272L6.21 6.047ZM11.75 10a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Zm-4.22 3.47a.75.75 0 0 1 0 1.06l-.328.329a68.32 68.32 0 0 0-.085.085c-.494.495-.885.886-1.393 1.097c-.509.21-1.061.21-1.76.21l-.12-.001H3a.75.75 0 0 1 0-1.5h.843c.879 0 1.11-.013 1.307-.095c.198-.082.37-.236.991-.857l.329-.328a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"/><path d="M3.087 22h16.402a2.511 2.511 0 1 0-.433-4.985l-.163.029L20.033 9v-.003c.053-.35.085-.553.124-.699a.63.63 0 0 1 .04-.115l.006-.012l.002-.001l.01-.007a.635.635 0 0 1 .114-.046c.145-.046.346-.087.695-.157l1.123-.225a.75.75 0 1 0-.294-1.47l-1.157.23c-.303.062-.589.119-.823.194a1.73 1.73 0 0 0-.755.447c-.227.238-.34.51-.41.776c-.064.237-.107.525-.153.832l-.005.034l-1.21 8.538L2.9 19.843A1.087 1.087 0 0 0 3.086 22Z"/></g></svg>
+      </span>
+      """
     end
   end
 

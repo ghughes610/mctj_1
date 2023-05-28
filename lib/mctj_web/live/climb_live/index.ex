@@ -15,6 +15,7 @@ defmodule MctjWeb.ClimbLive.Index do
     "5.14d",
     "5.15a"
   ]
+
   @impl true
   def mount(_params, session, socket) do
     socket = assign_defaults(session, socket)
