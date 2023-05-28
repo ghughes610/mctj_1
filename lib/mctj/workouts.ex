@@ -40,10 +40,10 @@ defmodule Mctj.Workouts do
     Workout.changeset(workout, attrs)
   end
 
-  def list_workouts_week(day),
+  def list_workouts_week(day, id),
     do:
       Enum.filter(
-        list_workouts(),
+        list_user_workouts(id),
         &Timex.between?(&1.inserted_at, Timex.beginning_of_week(day), Timex.end_of_week(day))
       )
 

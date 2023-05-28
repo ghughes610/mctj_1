@@ -1,46 +1,100 @@
-<div class="bg-gray-400 h-screen">
-  <div class="flex justify-center mt-5 text-3xl">
-    <h1>My Workouts</h1>
-  </div>
-  <div class="flex justify-center mt-5 text-3xl">
-  <span class="relative z-10 rounded-full bg-gray-100 py-1.5 px-3 font-medium text-gray-600 hover:bg-green-300">
-  <%= live_redirect "Create a workout", to: Routes.workout_form_component_path(@socket, :index) %>
-  </span>
-    
-  </div>
+<section class="w-full">
+    <div class="bg-gray-900">
+        <main>
+            <!-- Hero section -->
+            <div class="relative isolate overflow-hidden">
+            <svg class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]" aria-hidden="true">
+                <defs>
+                <pattern id="983e3e4c-de6d-4c3f-8d64-b9761d1534cc" width="200" height="200" x="50%" y="-1" patternUnits="userSpaceOnUse">
+                    <path d="M.5 200V.5H200" fill="none" />
+                </pattern>
+                </defs>
+                <svg x="50%" y="-1" class="overflow-visible fill-gray-800/20">
+                <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z" stroke-width="0" />
+                </svg>
+                <rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)" />
+            </svg>
+            <svg viewBox="0 0 1108 632" aria-hidden="true" class="absolute top-10 left-[calc(50%-4rem)] -z-10 w-[69.25rem] max-w-none transform-gpu blur-3xl sm:left-[calc(50%-18rem)] lg:left-48 lg:top-[calc(50%-30rem)] xl:left-[calc(50%-24rem)]">
+                <path fill="url(#175c433f-44f6-4d59-93f0-c5c51ad5566d)" fill-opacity=".2" d="M235.233 402.609 57.541 321.573.83 631.05l234.404-228.441 320.018 145.945c-65.036-115.261-134.286-322.756 109.01-230.655C968.382 433.026 1031 651.247 1092.23 459.36c48.98-153.51-34.51-321.107-82.37-385.717L810.952 324.222 648.261.088 235.233 402.609Z" />
+                <defs>
+                <linearGradient id="175c433f-44f6-4d59-93f0-c5c51ad5566d" x1="1220.59" x2="-85.053" y1="432.766" y2="638.714" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#4F46E5" />
+                    <stop offset="1" stop-color="#80CAFF" />
+                </linearGradient>
+                </defs>
+            </svg>
 
-  <%= if @live_action in [:new, :edit] do %>
-    <.modal return_to={Routes.workout_index_path(@socket, :index)}>
-      <.live_component
-        module={MctjWeb.WorkoutLive.FormComponent}
-        id={@workout.id || :new}
-        action={@live_action}
-        workout={@workout}
-        return_to={Routes.workout_index_path(@socket, :index)}
-      />
-    </.modal>
-  <% end %>
+            <%= if @live_action in [:new, :edit] do %>
+              <.modal return_to={Routes.workout_index_path(@socket, :index)}>
+                <.live_component
+                  module={MctjWeb.WorkoutLive.FormComponent}
+                  id={@workout.id || :new}
+                  action={@live_action}
+                  workout={@workout}
+                  return_to={Routes.workout_index_path(@socket, :index)}
+                />
+              </.modal>
+            <% end %>
 
-  <div class="mb-10 mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-200 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-    <%= for workout <- @workouts do %>
-      <article id={"workout-#{workout.id}"} class="p-4 drop-shadow-md ml-4 max-w-xl flex-col items-start justify-between bg-cyan-300 rounded-lg max-w-sm">
-      <div class="flex items-center gap-x-4 text-xs ">
-        <time datetime="29020-03-16" class="text-gray-500"><%= Timex.format!(workout.inserted_at, "{0M}-{D}-{YYYY}") %></time>
-        <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600">
-          <%= workout.type %>
-        </span>
-        <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600 hover:bg-gray-100">
-          <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: workout.id, data: [confirm: "Are you sure?"] %>
-        </span>
-        
-        </div>
-        <div class="group relative">
-          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-500">
-                <%= live_patch "#{workout.name}", to: Routes.live_path(@socket, MctjWeb.WorkoutLive.Show, workout), class: "button" %>
-          </h3>
-        </div>
-      </article>
-    <% end %>
-  </div>
-</div>
+            <div class="mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
+                <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
+                <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">My workouts</h1>
+                <p class="mt-6 text-lg leading-8 text-gray-300">Workouts from this week</p>
+                <p class="relative z-10 rounded-full bg-gray-100 py-1.5 pl-4 mt-3 font-medium text-gray-600 hover:bg-green-300 w-40"><%= live_redirect "Create a workout", to: Routes.workout_form_component_path(@socket, :index) %></p>
+
+                <div class="mt-10 flex flex-row justify-between">
+                  <%= for workout <- @workouts do %>
+                  <article id={"workout-#{workout.id}"} class="p-4 drop-shadow-md ml-4 max-w-xl flex-col items-start justify-between bg-cyan-300 rounded-lg w-96">
+                  <div class="flex items-center gap-x-4 text-xs ">
+                      <time datetime="29020-03-16" class="text-gray-500"><%= Timex.format!(workout.inserted_at, "{0M}/{D}/{YYYY}") %></time>
+                        <div class="flex flex-col justify-center relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600">
+                          <div>
+                            <%= workout.type %>
+                          </div>
+                        </div>
+                      <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600 hover:bg-red-200">
+                        <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: workout.id, data: [confirm: "Are you sure?"] %>
+                      </span>
+                      
+                      </div>
+                      <div class="group relative">
+                        <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-500">
+                              <%= live_patch "#{workout.name}", to: Routes.live_path(@socket, MctjWeb.WorkoutLive.Show, workout), class: "button" %>
+                        </h3>
+                      </div>
+                    </article>
+                  <% end %>
+                </div>
+                </div>
+                <div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">
+                </div>
+            </div>
+            </div>
+            <!-- Stats -->
+            <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8 pb-5">
+            <dl class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+                <div class="flex flex-col gap-y-3 pl-6">
+                <dt class="text-sm leading-6"></dt>
+                <dd class="order-first text-3xl font-semibold tracking-tight"></dd>
+                </div>
+
+                <div class="flex flex-col gap-y-3 pl-6">
+                <dt class="text-sm leading-6"></dt>
+                <dd class="order-first text-3xl font-semibold tracking-tight"></dd>
+                </div>
+
+                <div class="flex flex-col gap-y-3 pl-6">
+                <dt class="text-sm leading-6"></dt>
+                <dd class="order-first text-3xl font-semibold tracking-tight"></dd>
+                </div>
+
+                <div class="flex flex-col gap-y-3 border-l border-white/10 pl-6">
+                <dt class="text-sm leading-6">Total Workouts</dt>
+                <dd class="order-first text-3xl font-semibold tracking-tight"><%= Enum.count(@workouts) %></dd>
+                </div>
+            </dl>
+            </div>
+        </main>
+    </div>
+</section>
 

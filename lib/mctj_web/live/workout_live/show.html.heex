@@ -1,5 +1,5 @@
-<div class="flex flex-col justify-center items-center p-2 m-3 bg-gray-400 w-screen h-screen">
-<h1 class="uppercase font-bold p-8 text-4xl"><%= @workout.name %></h1>
+<div class="flex flex-col justify-center items-center p-2 m-3 bg-gray-200 w-screen h-screen">
+<h1 class="uppercase font-bold p-2 text-4xl"><%= @workout.name %></h1>
 <div class="my-20 rounded bg-green-300 p-2 hover:bg-green-500">
   <span class="text-gray-500" phx-click="add_exercise">
     add exercise 
@@ -17,19 +17,24 @@
     />
   </.modal>
 <% end %>
+<div class="flex flex-col justify-center items-center pb-5">
+  <div>
+    <strong>Type</strong> 
+  </div>
+  <div>
+    <%= @workout.type %> 
+  </div>  
+</div>
 
-<ul>
-  <li class="mb-5">
-    <strong>Type:</strong>
-    <%= @workout.type %>
-  </li>
-
-  <li class="mb-20">
-    <strong>Number of circuits:</strong>
+<div class="flex flex-col justify-center items-center pb-10">
+  <div>
+    <strong>Number of circuits</strong>
+  </div>
+  <div>
     <%= @workout.number_of_circuits %>
-  </li>
-</ul>
-
+  </div>  
+</div>
+  
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={@workout.id}>
@@ -43,10 +48,10 @@
   </.modal>
 <% end %>
 
-  <table class="w-screen">
+  <table class="w-1/2 rounded">
     <tbody class="">
       <thead class="">
-        <tr class="bg-gray-400">
+        <tr class="bg-gray-200">
           <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
           <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Reps</th>
           <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Weight</th>

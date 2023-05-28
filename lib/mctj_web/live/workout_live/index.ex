@@ -10,7 +10,7 @@ defmodule MctjWeb.WorkoutLive.Index do
     user = Accounts.get_user_by_session_token(session["user_token"])
     socket = assign_defaults(session, socket)
 
-    {:ok, assign(socket, :workouts, Workouts.list_user_workouts(user.id))}
+    {:ok, assign(socket, :workouts, Workouts.list_workouts_week(Timex.now(), user.id))}
   end
 
   @impl true
@@ -48,10 +48,10 @@ defmodule MctjWeb.WorkoutLive.Index do
     {:ok, _} = Workouts.delete_workout(workout)
 
     {:noreply,
-     assign(socket, :workouts, Workouts.list_user_workouts(socket.assigns.current_user.id))}
-  end
-
-  defp list_workouts do
-    Workouts.list_workouts()
+     assign(
+       socket,
+       :workouts,
+       Workouts.list_workouts_week(Timex.now(), socket.assigns.current_user.id)
+     )}
   end
 end

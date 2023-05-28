@@ -1,46 +1,42 @@
 <div>
-  <div class="flex justify-center mt-5 text-3xl">
+  <div class="flex justify-center mt-5 mb-10 text-3xl">
     <h1>Climbs</h1>
   </div>
 
-  <div class="w-full flex justify-center">
-    <div class="flex flex-col">
-      <!-- make this a dropdown -->
+  <div class="w-full flex justify-around px-20 pt-15">
+    <%= for grade <- @grades do %>
+    <div class="rounded bg-gray-300 hover:bg-green-300">
       <div
         phx-click="get_by_grade"
-        phx-value-grade="5.13a"
+        phx-value-grade={grade}
+        class="mb-3 px-5 mt-3 mx-2 hover:cursor-pointer"
       >
-        5.13a
+        <%= grade %>
       </div>
-      <div phx-click="get_by_grade" phx-value-grade="5.13b" class="mb-3 hover:cursor-pointer">5.13b</div>
     </div>
+    <% end %>
   </div>
 
-
-
-  <div>
-    
-  </div>
-
-
-
-
-<div class="px-4 sm:px-6 lg:px-8">
-  <div class="mt-8 flex flex-col">
-    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-          <table class="min-w-full">
-            <%= MctjWeb.Live.ComponentsLive.TableComponents.dynamic_table_head(assigns) %>
-            <tbody class="bg-white">
-              <%= MctjWeb.Live.ComponentsLive.TableComponents.dynamic_table(assigns) %>
-            </tbody>
-          </table>
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="mt-8 flex flex-col">
+      <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div
+            class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
+          >
+            <table class="min-w-full">
+              <%=
+              MctjWeb.Live.ComponentsLive.TableComponents.dynamic_table_head(assigns)
+              %>
+              <tbody class="bg-white">
+                <%=
+                MctjWeb.Live.ComponentsLive.TableComponents.dynamic_table(assigns)
+                %>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-
 </div>
