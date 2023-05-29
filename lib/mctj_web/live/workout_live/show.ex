@@ -96,7 +96,7 @@ defmodule MctjWeb.WorkoutLive.Show do
   def completed_bg_color(sets, completed_sets) do
     result =
       if sets != completed_sets do
-        "border-t bg-gray-400"
+        "border-t bg-gray-900"
       else
         "border-t bg-green-200"
       end
