@@ -12,6 +12,13 @@ defmodule Mctj.UserClimbs do
 
   def get_user_climb!(id), do: Repo.get!(UserClimb, id)
 
+  def find_user_climb(user_id, climb_id) do
+    UserClimb
+    |> where(climb_id: ^climb_id)
+    |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
   def create_user_climb(attrs \\ %{}) do
     %UserClimb{}
     |> UserClimb.changeset(attrs)

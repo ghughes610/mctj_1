@@ -5,5 +5,4 @@ defmodule MctjWeb.ClimbLive.FormComponent do
 
   @impl true
   def mount(params, session, socket), do: {:ok, assign_defaults(session, socket)}
-
 end
