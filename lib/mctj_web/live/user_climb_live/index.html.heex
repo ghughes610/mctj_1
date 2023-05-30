@@ -51,11 +51,40 @@
         </.modal>
         <% end %>
         <div class="mt-10">
-            <%= for climb <- @climbs do %>
-                <h2 class="text-white">
-                    <%= climb.climb.name %> - <%= climb.climb.grade %> - sessions: <%= climb.sessions %>
-                </h2>
-            <% end %>
+          <table class="w-1/2">
+            <tbody>
+              <thead>
+                <tr class="text-gray-300">
+                  <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-green-300">Name</th>
+                  <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-green-300">Grade</th>
+                  <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-green-300">Sessions</th>
+                  <th scope="col" class="text-center text-sm font-semibold text-green-200">Sent</th>
+                </tr>
+              </thead>
+                <%= for climb <- @climbs do %>
+                    <tr class={}>
+                    <td class="whitespace-nowrap py-4 text-sm font-medium text-gray-300 sm:pl-6">
+                      <%=climb.climb.name%>
+                    </td>
+                    <td class="whitespace-nowrap py-4 text-sm font-medium text-gray-300 sm:pl-6">
+                      <%=climb.climb.grade%>
+                    </td>
+                    <td class="whitespace-nowrap text-center text-sm text-gray-300 ">
+                      <%= climb.sessions %>
+                    </td>
+                    <td class="whitespace-nowrap text-center text-sm text-gray-300 ">
+                      <%= if !is_nil(climb.send_date) do %>
+                        sent
+                        <% else %> 
+                        work in progress
+                      <% end %>
+                    </td>
+                   </tr>
+                <% end %>
+                </tbody>
+          </table>
+
+            
         </div>
         </div>
         </div>
