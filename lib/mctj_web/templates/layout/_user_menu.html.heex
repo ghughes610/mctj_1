@@ -1,9 +1,9 @@
 <ul class="flex justify-between">
 <%= if @current_user do %>
   <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1 " aria-current="page"><%= link "Home", to: "/" %></li>
-  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1 " aria-current="page"><%= link "Workouts", to: Routes.workout_index_path(@conn, :index) %></li>
-  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1 " aria-current="page"><%= link "Climbs", to: Routes.climb_index_path(@conn, :index) %></li>
-  
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1 " aria-current="page"><%= link "My Workouts", to: Routes.workout_index_path(@conn, :index) %></li>
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1 " aria-current="page"><%= link "NRG Climbs", to: Routes.climb_index_path(@conn, :index) %></li>
+  <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium mr-1" aria-current="page"><%= link "My Climbing Log", to: "/user/user_climbs" %></li>
   <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium " aria-current="page"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
 <% else %>
   <li class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page"><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>

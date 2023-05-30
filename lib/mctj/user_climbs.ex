@@ -5,9 +5,15 @@ defmodule Mctj.UserClimbs do
   alias Mctj.UserClimbs.UserClimb
 
   def list_user_climbs(user_id) do
-    UserClimb
-    |> where(user_id: ^user_id)
-    |> Repo.all()
+    user_climbs =
+      UserClimb
+      |> where(user_id: ^user_id)
+      |> Repo.all()
+
+   for user_climb <- user_climbs do
+      user_climb
+      |> Repo.preload(:climb)
+    end
   end
 
   def get_user_climb!(id), do: Repo.get!(UserClimb, id)
