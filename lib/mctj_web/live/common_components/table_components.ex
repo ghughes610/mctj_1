@@ -8,7 +8,7 @@ defmodule MctjWeb.Live.ComponentsLive.TableComponents do
         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Grade</th>
         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Bolt Count</th>
-        <div scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-300"><%= Enum.count(@items) %> climbs</div>
+        <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900"><%= Enum.count(@items) %> climbs</th>
       </tr>
     </thead>
     """
@@ -27,6 +27,7 @@ defmodule MctjWeb.Live.ComponentsLive.TableComponents do
               <%= i.bolt_count %>
             <% end %>
           </td>
+          <td class="flex flex-row p-2 whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:cursor-pointer" phx-click="log_climb_modal" phx-value-id={i.id}><p class="rounded-full bg-blue-300 hover:bg-blue-500 hover:text-gray-900 px-3">Log Climb</p></td>
         </tr>
     <% end %>
     """

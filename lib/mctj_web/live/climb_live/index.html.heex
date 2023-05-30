@@ -1,7 +1,7 @@
 <section class="w-full">
     <div class="bg-gray-900">
         <main>
-            
+
             <div class="relative isolate overflow-hidden">
             <svg class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]" aria-hidden="true">
                 <defs>
@@ -27,7 +27,7 @@
                 <div class="flex justify-center mt-5 mb-10 text-3xl font-bold text-gray-300">Climbs</div>
                 <div class="w-full flex justify-around px-20 pt-15">
                   <div>
-                    <.form 
+                    <.form
                       let={f}
                       for={%{}}
                       id="grade-filter-form"
@@ -42,6 +42,18 @@
                     </.form>
                   </div>
                 </div>
+
+            <%= if @live_action in [:new] do %>
+              <.modal return_to={"climbs"}>
+                <.live_component
+                  module={MctjWeb.ClimbLive.FormComponent}
+                  id={:new}
+                  action={@live_action}
+                  climb={@climb}
+                  return_to={"climbs"}
+                />
+              </.modal>
+            <% end %>
 
                 <div class="px-4 sm:px-6 lg:px-8">
                   <div class="mt-8 flex flex-col">
@@ -70,6 +82,10 @@
         </main>
     </div>
 </section>
+
+
+
+
 
 
 
