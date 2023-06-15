@@ -1,5 +1,4 @@
 defmodule Mctj.WeatherFetcher.Weather do
-  @api_key "11ed6ab0041e9547a094c7489e85b272"
   def fetch_current_weather(zip) do
     url =
       "https://api.openweathermap.org/data/2.5/weather?zip=#{zip},US&appid=#{@api_key}&units=imperial"
