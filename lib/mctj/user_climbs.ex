@@ -10,7 +10,7 @@ defmodule Mctj.UserClimbs do
       |> where(user_id: ^user_id)
       |> Repo.all()
 
-   for user_climb <- user_climbs do
+    for user_climb <- user_climbs do
       user_climb
       |> Repo.preload(:climb)
     end

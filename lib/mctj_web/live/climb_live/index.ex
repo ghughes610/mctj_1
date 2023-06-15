@@ -62,7 +62,8 @@ defmodule MctjWeb.ClimbLive.Index do
 
         UserClimbs.create_user_climb(attrs)
 
-      [climb | _] -> UserClimbs.update_user_climb(climb, build_updated_climb(climb, params))
+      [climb | _] ->
+        UserClimbs.update_user_climb(climb, build_updated_climb(climb, params))
     end
 
     {:noreply, assign(socket, live_action: nil)}
@@ -70,7 +71,6 @@ defmodule MctjWeb.ClimbLive.Index do
 
   def handle_event("log_climb", %{"climb_id" => climb_id, "sent" => "false"} = params, socket) do
     user_climb = UserClimbs.find_user_climb(socket.assigns.current_user.id, climb_id)
-
 
     case user_climb do
       [] ->
@@ -84,7 +84,8 @@ defmodule MctjWeb.ClimbLive.Index do
 
         UserClimbs.create_user_climb(attrs)
 
-      [climb | _] -> UserClimbs.update_user_climb(climb, build_updated_climb(climb, params))
+      [climb | _] ->
+        UserClimbs.update_user_climb(climb, build_updated_climb(climb, params))
     end
 
     {:noreply, assign(socket, live_action: nil)}
@@ -115,27 +116,34 @@ defmodule MctjWeb.ClimbLive.Index do
       |> Map.from_struct()
       |> Map.put(:sessions, current_session)
 
+    new_metadata = Map.put(climb.metadata, "session_#{current_session}_notes", params["notes"])
+
+    attrs = Map.put(attrs, :metadata, new_metadata)
+  end
+
+  defp build_updated_climb(
+         %UserClimb{send_date: send_date, metadata: %{"repeat_dates" => []}} = climb,
+         params
+       ) do
+    new_metadata = Map.put(climb.metadata, "repeat_dates", [Timex.now()])
+
+    Map.put(Map.from_struct(climb), :metadata, new_metadata)
+  end
+
+  defp build_updated_climb(
+         %UserClimb{send_date: send_date, metadata: metadata} = climb,
+         %{"sent" => "true"} = params
+       ) do
     new_metadata =
-      Map.put(climb.metadata, "session_#{current_session}_notes", params["notes"])
+      Map.put(climb.metadata, "repeat_dates", climb.metadata["repeat_dates"] ++ [Timex.now()])
 
-    attrs =
-      Map.put(attrs, :metadata, new_metadata)
+    Map.put(Map.from_struct(climb), :metadata, new_metadata)
   end
 
-  defp build_updated_climb(%UserClimb{send_date: send_date, metadata: %{"repeat_dates" => []}} = climb, params) do
-      new_metadata = Map.put(climb.metadata, "repeat_dates", [Timex.now()])
-
-      Map.put(Map.from_struct(climb), :metadata, new_metadata)
-  end
-
-  defp build_updated_climb(%UserClimb{send_date: send_date, metadata: metadata} = climb, %{"sent" => "true"} = params) do
-      new_metadata = Map.put(climb.metadata, "repeat_dates", climb.metadata["repeat_dates"] ++ [Timex.now()])
-
-      Map.put(Map.from_struct(climb), :metadata, new_metadata)
-  end
-
-  defp build_updated_climb(%UserClimb{send_date: send_date, metadata: metadata} = climb, %{"sent" => "false"} = params) do
+  defp build_updated_climb(
+         %UserClimb{send_date: send_date, metadata: metadata} = climb,
+         %{"sent" => "false"} = params
+       ) do
     Map.from_struct(climb)
   end
-
 end
