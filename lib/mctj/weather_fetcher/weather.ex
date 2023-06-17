@@ -1,11 +1,18 @@
 defmodule Mctj.WeatherFetcher.Weather do
-  def fetch_current_weather(zip) do
-    url =
-      "https://api.openweathermap.org/data/2.5/weather?zip=#{zip},US&appid=#{@api_key}&units=imperial"
+  alias Mctj.ApplicationConfig
 
-    HTTPoison.get!(url).body
+  def fetch_current_weather(zip) do
+    HTTPoison.get!(generate_weather_url(zip)).body
     |> JSON.decode!()
     |> parse_response()
+  end
+
+  defp generate_weather_url(zip) do
+    config = ApplicationConfig.get_weather_service_config()
+
+    config.service_url
+    |> String.replace("query_zip", zip)
+    |> String.replace("api_key", config.api_key)
   end
 
   defp parse_response(%{
