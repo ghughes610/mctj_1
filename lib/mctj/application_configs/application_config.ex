@@ -1,4 +1,4 @@
-defmodule Mctj.ApplicationConfigs. ApplicationConfig do
+defmodule Mctj.ApplicationConfigs.ApplicationConfig do
   use Ecto.Schema
   import Ecto.Changeset
 

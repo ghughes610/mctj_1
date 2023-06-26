@@ -1,5 +1,4 @@
 defmodule Mctj.ApplicationConfig do
-
   import Ecto.Query, warn: false
   alias Mctj.Repo
 
@@ -18,5 +17,4 @@ defmodule Mctj.ApplicationConfig do
   end
 
   def get_weather_service_config, do: get_config_by_service_name!("open_weather_map")
-
 end

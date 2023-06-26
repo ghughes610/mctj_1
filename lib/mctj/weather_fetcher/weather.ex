@@ -10,8 +10,7 @@ defmodule Mctj.WeatherFetcher.Weather do
   defp generate_weather_url(zip) do
     config = ApplicationConfig.get_weather_service_config()
 
-    config.service_url
-    |> String.replace("query_zip", zip)
+    String.replace(config.service_url, "query_zip", Integer.to_string(zip))
     |> String.replace("api_key", config.api_key)
   end
 

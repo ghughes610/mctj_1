@@ -10,6 +10,7 @@ defmodule Mctj.Accounts.User do
 
     has_many :workouts, Mctj.Workouts.Workout
     has_many :user_climbs, Mctj.UserClimbs.UserClimb
+    has_many :api_requests, Mctj.ApiRequests.ApiRequest
 
     timestamps()
   end

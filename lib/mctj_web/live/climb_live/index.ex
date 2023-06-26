@@ -6,6 +6,7 @@ defmodule MctjWeb.ClimbLive.Index do
   alias Mctj.Climbs.Climb
   alias Mctj.UserClimbs
   alias Mctj.UserClimbs.UserClimb
+  alias Mctj.WeatherFetcher.Weather
 
   @grades [
     "all",
@@ -48,14 +49,17 @@ defmodule MctjWeb.ClimbLive.Index do
        assign(socket, live_action: :new) |> assign(:climb, Climbs.get_climb!(params["id"]))}
 
   def handle_event("log_climb", %{"climb_id" => climb_id, "sent" => "true"} = params, socket) do
-    user_climb = UserClimbs.find_user_climb(socket.assigns.current_user.id, climb_id)
-
-    case user_climb do
+    case UserClimbs.find_user_climb(socket.assigns.current_user.id, climb_id) do
       [] ->
+        climb = Climbs.get_climb!(climb_id)
+
         attrs = %{
           user_id: socket.assigns.current_user.id,
           climb_id: climb_id,
-          metadata: %{"send_session_notes" => params["notes"]},
+          metadata: %{
+            "send_session_notes" => params["notes"],
+            "weather" => Weather.fetch_current_weather(climb.zip)
+          },
           sessions: 1,
           send_date: Timex.now()
         }
@@ -70,14 +74,17 @@ defmodule MctjWeb.ClimbLive.Index do
   end
 
   def handle_event("log_climb", %{"climb_id" => climb_id, "sent" => "false"} = params, socket) do
-    user_climb = UserClimbs.find_user_climb(socket.assigns.current_user.id, climb_id)
-
-    case user_climb do
+    case UserClimbs.find_user_climb(socket.assigns.current_user.id, climb_id) do
       [] ->
+        climb = Climbs.get_climb!(climb_id)
+
         attrs = %{
           user_id: socket.assigns.current_user.id,
           climb_id: climb_id,
-          metadata: %{"session_1_notes" => params["notes"]},
+          metadata: %{
+            "session_1_notes" => params["notes"],
+            "weather" => Weather.fetch_current_weather(climb.zip)
+          },
           sessions: 1,
           send_date: nil
         }
