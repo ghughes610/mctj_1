@@ -57,8 +57,8 @@ defmodule MctjWeb.ClimbLive.Index do
           user_id: socket.assigns.current_user.id,
           climb_id: climb_id,
           metadata: %{
-            "send_session_notes" => params["notes"],
-            "weather" => Weather.fetch_current_weather(climb.zip)
+            "send_session_notes" => %{"notes" => params["notes"], "weather" => Weather.fetch_current_weather(climb.zip)},
+            "climb_zip" => climb.zip
           },
           sessions: 1,
           send_date: Timex.now()
@@ -82,8 +82,8 @@ defmodule MctjWeb.ClimbLive.Index do
           user_id: socket.assigns.current_user.id,
           climb_id: climb_id,
           metadata: %{
-            "session_1_notes" => params["notes"],
-            "weather" => Weather.fetch_current_weather(climb.zip)
+            "session_1_notes" => %{"notes" => params["notes"], "weather" => Weather.fetch_current_weather(climb.zip)},
+            "climb_zip" => climb.zip
           },
           sessions: 1,
           send_date: nil
@@ -107,7 +107,7 @@ defmodule MctjWeb.ClimbLive.Index do
       |> Map.put(:sessions, current_session)
 
     new_metadata =
-      Map.put(climb.metadata, "send_session_notes", params["notes"])
+      Map.put(climb.metadata, "send_session_notes", %{"notes" => params["notes"], "weather" => Weather.fetch_current_weather(climb.metadata["climb_zip"]) })
       |> Map.put("repeat_dates", [])
 
     attrs =
@@ -123,7 +123,7 @@ defmodule MctjWeb.ClimbLive.Index do
       |> Map.from_struct()
       |> Map.put(:sessions, current_session)
 
-    new_metadata = Map.put(climb.metadata, "session_#{current_session}_notes", params["notes"])
+    new_metadata = Map.put(climb.metadata, "session_#{current_session}_notes", %{"notes" => params["notes"], "weather" => Weather.fetch_current_weather(climb.metadata["climb_zip"]) })
 
     attrs = Map.put(attrs, :metadata, new_metadata)
   end
