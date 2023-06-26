@@ -2,34 +2,24 @@ defmodule MctjWeb.ClimbLive.Index do
   import Ecto.Query
   use MctjWeb, :live_view
 
+  alias Mctj.ApplicationConfig
   alias Mctj.Climbs
   alias Mctj.Climbs.Climb
   alias Mctj.UserClimbs
   alias Mctj.UserClimbs.UserClimb
   alias Mctj.WeatherFetcher.Weather
 
-  @grades [
-    "all",
-    "5.13a",
-    "5.13b",
-    "5.13c",
-    "5.13d",
-    "5.14a",
-    "5.14b",
-    "5.14c",
-    "5.14d",
-    "5.15a"
-  ]
 
   @impl true
   def mount(_params, session, socket) do
+    grades = ApplicationConfig.get_config_by_service_name!("grades_list")
     socket =
       assign_defaults(session, socket)
       |> assign(
         :items,
         Climbs.list_climbs()
       )
-      |> assign(:grades, @grades)
+      |> assign(:grades, grades.metadata["grades"])
 
     {:ok, socket}
   end
