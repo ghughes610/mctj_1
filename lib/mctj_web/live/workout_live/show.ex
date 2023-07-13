@@ -11,11 +11,9 @@ defmodule MctjWeb.WorkoutLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    workout = Workouts.get_workout!(id) |> Mctj.Repo.preload(:exercises)
-
     {:noreply,
      socket
-     |> assign(:workout, workout)}
+     |> assign(:workout, Workouts.sort_workouts_exercises(Workouts.get_workout!(id) |> Mctj.Repo.preload(:exercises)))}
   end
 
   def handle_event("edit", %{"id" => id}, socket) do
@@ -54,12 +52,10 @@ defmodule MctjWeb.WorkoutLive.Show do
         "workout_id" => workout.id
       })
 
-    workout = Workouts.get_workout!(workout.id) |> Mctj.Repo.preload([:exercises])
-
     {:noreply,
      assign(socket,
        add_exercise: false,
-       workout: workout
+       workout: Workouts.sort_workouts_exercises(Workouts.get_workout!(workout.id) |> Mctj.Repo.preload(:exercises))
      )}
   end
 
@@ -70,7 +66,7 @@ defmodule MctjWeb.WorkoutLive.Show do
     Mctj.Exercises.delete_exercise(exercise)
 
     {:noreply,
-     assign(socket, workout: Workouts.get_workout!(workout_id) |> Mctj.Repo.preload([:exercises]))}
+     assign(socket, workout: Workouts.sort_workouts_exercises(Workouts.get_workout!(workout_id) |> Mctj.Repo.preload(:exercises)))}
   end
 
   def handle_event("complete_set", %{"id" => id}, socket) do
@@ -86,7 +82,7 @@ defmodule MctjWeb.WorkoutLive.Show do
 
     {:noreply,
      assign(socket,
-       workout: Workouts.get_workout!(exercise.workout_id) |> Mctj.Repo.preload([:exercises])
+       workout: assign_workout_to_socket(exercise)
      )}
   end
 
@@ -101,4 +97,9 @@ defmodule MctjWeb.WorkoutLive.Show do
         "border-t bg-green-200"
       end
   end
+
+  defp assign_workout_to_socket(exercise) do
+    Workouts.get_workout!(exercise.workout_id) |> Mctj.Repo.preload([:exercises]) |> Workouts.sort_workouts_exercises()
+  end
+
 end

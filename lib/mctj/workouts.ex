@@ -40,6 +40,12 @@ defmodule Mctj.Workouts do
     Workout.changeset(workout, attrs)
   end
 
+  def sort_workouts_exercises(workout) do
+    exercises = Enum.sort_by(workout.exercises, &(&1.metadata["circuit_number"]))
+
+    Map.drop(workout, [:exercises]) |> Map.put(:exercises, exercises)
+  end
+
   def list_workouts_week(day, id),
     do:
       Enum.filter(
