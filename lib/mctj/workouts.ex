@@ -41,7 +41,7 @@ defmodule Mctj.Workouts do
   end
 
   def sort_workouts_exercises(workout) do
-    exercises = Enum.sort_by(workout.exercises, &(&1.metadata["circuit_number"]))
+    exercises = Enum.group_by(workout.exercises, &(&1.metadata["circuit_number"]))
 
     Map.drop(workout, [:exercises]) |> Map.put(:exercises, exercises)
   end
