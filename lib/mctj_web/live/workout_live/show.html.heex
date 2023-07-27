@@ -6,11 +6,11 @@
         :index)} />
     </.modal>
     <% end %>
-      <h1 class="font-bold p-2 text-4xl text-gray-300 md:pl-4">
+      <h1 class="font-bold p-2 text-4xl text-gray-300 md:pl-4 mt-3">
         <%= @workout.name %>
       </h1>
-
-      <span class="text-gray-500 hover:text-green-400" phx-click="add_exercise">
+      
+      <span class="bg-gray-800 text-gray-500 hover:text-green-400 hover:bg-green-600 hover:cursor-pointer rounded-xl p-2 my-5" phx-click="add_exercise">
         add exercise
       </span>
 
@@ -29,70 +29,31 @@
                 :new} action={@live_action} workout={@workout} return_to={@workout.id} />
             </.modal>
             <% end %>
-              <div class="sm:w-72 md:w-1/2 ">
-                <table class="sm:w-72 md:w-1/2">
-                  <tbody>
-                    <thead>
-                      <tr class="text-gray-300">
-                        <th scope="col"
-                          class="py-3.5  pr-3 text-left text-sm font-semibold text-green-300 sm:pl-6">
-                          Name</th>
-                        <th scope="col"
-                          class="px-3 py-3.5 text-center text-sm font-semibold text-green-300">Reps
-                        </th>
-                        <th scope="col"
-                          class="px-3 py-3.5 text-center text-sm font-semibold text-green-300">
-                          Weight</th>
-                        <th scope="col"
-                          class="px-3 py-3.5 text-center text-sm font-semibold text-green-300">
-                          Circuit</th>
-                        <th scope="col" class="text-center text-sm font-semibold text-green-200">
-                          Completed Sets</th>
-                      </tr>
-                    </thead>
-                    <%= for exercise <- @workout.exercises do %>
-                      <tr
-                        class={MctjWeb.WorkoutLive.Show.completed_bg_color(exercise.metadata["completed_sets"],
-                        @workout.sets)}>
-                        <td
-                          class="whitespace-nowrap py-4 text-sm font-medium text-gray-300 sm:pl-6">
-                          <%=String.capitalize(exercise.name)%>
-                        </td>
-                        <td class="whitespace-nowrap text-center text-sm text-gray-300 ">
-                          <%= exercise.reps %>
-                        </td>
-                        <td class="whitespace-nowrap text-center text-sm text-gray-300">
-                          <%= exercise.weight %>
-                        </td>
-                        <td class="whitespace-nowrap text-center text-sm text-gray-300">
-                          <%= exercise.metadata["circuit_number"] %>
-                        </td>
-                        <td class="whitespace-nowrap text-center text-sm text-gray-300">
-                          <%= exercise.metadata["completed_sets"] %> / <%= @workout.sets %>
-                        </td>
-                        <%= if exercise.metadata["completed_sets"] !=@workout.sets do %>
-                          <td class="whitespace-nowrap text-center text-sm text-gray-900 w-24">
-                            <div
-                              class="flex justify-center rounded mt-2 p-1 bg-blue-300 w-24 hover:bg-blue-400"
-                              phx-click="complete_set" phx-value-id={exercise.id}>complete set</div>
-                          </td>
-                          <% else %>
-                            <td class="whitespace-nowrap text-center text-sm text-gray-300 w-24">
-                              <div class="flex justify-center rounded mt-2 p-1 bg-green-400 w-24">
-                                DONE</div>
-                            </td>
-                            <% end %>
-                              <td
-                                class="flex items-center justify-end whitespace-nowrap pr-14 text-sm mt-1">
-                                <div
-                                  class="flex justify-center text-gray-900 rounded mt-2 p-1 bg-red-300 w-5 hover:bg-red-400"
-                                  phx-click="delete" phx-value-id={exercise.id}>x</div>
-                              </td>
-                      </tr>
-                      <% end %>
-                  </tbody>
-                </table>
-              </div>
+
+            <%= for {circuit, exercises} <- @workout.exercises do %>
+
+              <ul role="list" class="divide-y divide-gray-100">
+                <div class="text-white mb-3">
+                  Circuit <%= circuit %>
+                </div>
+
+                <%= for exercise <- exercises do %>
+                      <li class="flex justify-between gap-x-6 py-5 w-96">
+                        <div class="flex gap-x-4">
+                          <div class="min-w-0 flex-auto">
+                            <p class="pl-10 mt-1 truncate text-xs leading-5 text-gray-500"><%= exercise.name %></p>
+                          </div>
+                        </div>
+                        <div class="hidden sm:flex sm:flex-col sm:items-end">
+                          <p class="text-sm leading-6 text-gray-900">Co-Founder / CEO</p>
+                          <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h
+                              ago</time></p>
+                        </div>
+                      </li>
+                <% end %>
+              </ul>
+
+            <% end %>
 
 
               <div class="mt-20 rounded bg-blue-300 p-2 hover:bg-green-300 md:items-center">
@@ -103,3 +64,5 @@
               </div>
 
 </div>
+
+

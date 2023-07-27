@@ -125,3 +125,54 @@ partially styled form
   </.form>
 </div>
 "></form>
+
+
+
+
+<%= for {circuit, exercises} <- @workout.exercises do %>
+  <%= circuit %>
+
+    <%= for exercise <- exercises do %>
+      exercise: <%= exercise.name %>
+        <% end %>
+          <% end %>
+
+
+
+
+            <tr
+              class={MctjWeb.WorkoutLive.Show.completed_bg_color(exercise.metadata["completed_sets"],
+              @workout.sets)}>
+              <td class="whitespace-nowrap py-4 text-sm font-medium text-gray-300 sm:pl-6">
+                <%=String.capitalize(exercise.name)%>
+              </td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-300 ">
+                <%= exercise.reps %>
+              </td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-300">
+                <%= exercise.weight %>
+              </td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-300">
+                <%= exercise.metadata["circuit_number"] %>
+              </td>
+              <td class="whitespace-nowrap text-center text-sm text-gray-300">
+                <%= exercise.metadata["completed_sets"] %> / <%= @workout.sets %>
+              </td>
+              <%= if exercise.metadata["completed_sets"] !=@workout.sets do %>
+                <td class="whitespace-nowrap text-center text-sm text-gray-900 w-24">
+                  <div
+                    class="flex justify-center rounded mt-2 p-1 bg-blue-300 w-24 hover:bg-blue-400"
+                    phx-click="complete_set" phx-value-id={exercise.id}>complete set</div>
+                </td>
+                <% else %>
+                  <td class="whitespace-nowrap text-center text-sm text-gray-300 w-24">
+                    <div class="flex justify-center rounded mt-2 p-1 bg-green-400 w-24">
+                      DONE</div>
+                  </td>
+                  <% end %>
+                    <td class="flex items-center justify-end whitespace-nowrap pr-14 text-sm mt-1">
+                      <div
+                        class="flex justify-center text-gray-900 rounded mt-2 p-1 bg-red-300 w-5 hover:bg-red-400"
+                        phx-click="delete" phx-value-id={exercise.id}>x</div>
+                    </td>
+            </tr>
