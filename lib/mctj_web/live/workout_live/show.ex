@@ -2,6 +2,7 @@ defmodule MctjWeb.WorkoutLive.Show do
   use MctjWeb, :live_view
 
   alias Mctj.Workouts
+  alias Mctj.DataCenter.ExerciseDataCenter
   alias Mctj.Exercises
 
   @impl true
@@ -24,14 +25,23 @@ defmodule MctjWeb.WorkoutLive.Show do
 
   def handle_event("edit", %{"id" => id}, socket) do
     {:noreply,
-     assign(socket, :page_title, "Edit Workout")
-     |> assign(:live_action, :edit)}
+     assign(socket, :page_title, "Edit Exercise")
+     |> assign(:live_action, :edit_exercise)
+     |> assign(:exercise, Mctj.Exercises.get_exercise!(String.to_integer(id)))}
   end
 
   def handle_event("add_exercise", params, socket) do
-    workout = socket.assigns.workout
-
     {:noreply, assign(socket, add_exercise: :new)}
+  end
+
+  def handle_event("generate_warm_up", params, socket) do
+    workout = socket.assigns.workout
+    warm_ups = Mctj.DataCenter.ExerciseDataCenter.get_warm_up_exercises()
+    |> Enum.shuffle()
+    |> Enum.take_every(4)
+    IO.inspect(warm_ups)
+
+    {:noreply, socket}
   end
 
   def handle_event(

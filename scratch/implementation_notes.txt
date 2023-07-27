@@ -1,1 +1,10 @@
-make weather service 
+finish workout show screen
+    edit modal for these...?
+
+when you enter number of circuits we should only make those
+    the user shouldnt have to answer this 
+    add a number of workouts for a circuit too 
+
+
+
+    

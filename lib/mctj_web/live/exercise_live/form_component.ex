@@ -5,6 +5,7 @@ defmodule MctjWeb.ExerciseLive.FormComponent do
 
   @impl true
   def mount(params, session, socket) do
+    
     {:ok, socket}
   end
 
