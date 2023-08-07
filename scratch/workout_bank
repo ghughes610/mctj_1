@@ -1,0 +1,465 @@
+[
+    {
+        "name": "base shape",
+        "weight": "",
+        "type": "",
+        "speed": "",
+        "duration": "",
+        "plane_of_movement": "",
+        "targets": [],
+        "description": ""
+    },
+    {
+        "name": "incline_bench_press",
+        "weight": "",
+        "speed": "slow/medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "chest",
+            "shoulders",
+            "triceps"
+        ],
+        "description": "lay on bench with back flat, feet on floor, and head at top of bench.  Grasp barbell with hands slightly wider than shoulder width.  Lift barbell off rack and lower to chest.  Press barbell back up to starting position."
+    },
+    {
+        "name": "kettlebell swing press",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "overhead",
+        "targets": [
+            "shoulders",
+            "core"
+        ],
+        "description": "stand with feet shoulder width apart, knees slightly bent, and kettlebell in right hand.  Swing kettlebell back between legs and then up to shoulder height.  Press kettlebell overhead.  Lower kettlebell back to shoulder height and then swing back between legs.  Repeat for desired number of reps and then switch sides."
+    },
+    {
+        "name": "kettlebell side swing",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "sagital",
+        "targets": [
+            "shoulders",
+            "core",
+            "legs"
+        ],
+        "description": ""
+    },
+    {
+        "name": "straight leg deadlift",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "hamstrings",
+            "core"
+        ],
+        "description": ""
+    },
+    {
+        "name": "deadlift",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "hamstrings",
+            "quads",
+            "core"
+        ],
+        "description": "bend down and grasp barbell with hands slightly wider than shoulder width.  Lift barbell off ground and stand up straight.  Lower barbell back to ground."
+    },
+    {
+        "name": "anti rows",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "sagital",
+        "targets": [
+            "core"
+        ],
+        "description": "bend down and grasp the band with both hands.  Extend arms straight out and pull band back to chest."
+    },
+    {
+        "name": "anti rows",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "sagital",
+        "targets": [
+            "core"
+        ],
+        "description": "bend down and grasp the band with both hands.  Extend arms straight out and pull band back to chest."
+    },
+    {
+        "name": "Superstars",
+        "weight": "",
+        "speed": "medium",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "multiplane",
+        "targets": [
+            "shoulders",
+            "core",
+            "legs",
+            "hips"
+        ],
+        "description": ""
+    },
+    {
+        "name": "flat bench",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "shoulders",
+            "chest"
+        ],
+        "description": ""
+    },
+    {
+        "name": "jump rope",
+        "weight": "",
+        "speed": "fast",
+        "type": "cardio",
+        "duration": "",
+        "plane_of_movement": "multiplane",
+        "targets": [
+            "shoulders",
+            "chest",
+            "legs"
+        ],
+        "description": ""
+    },
+    {
+        "name": "tricept extension",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "tricepts"
+        ],
+        "description": ""
+    },
+    {
+        "name": "reverse bicept curl",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "tricepts"
+        ],
+        "description": ""
+    },
+    {
+        "name": "kettlebell swings",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "legs",
+            "core"
+        ],
+        "description": ""
+    },
+    {
+        "name": "side raises",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "sagital",
+        "targets": [
+            "shoulders"
+        ],
+        "description": ""
+    },
+    {
+        "name": "back squats",
+        "weight": "",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "legs",
+            "core"
+        ],
+        "description": ""
+    },
+    {
+        "name": "lunges",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "legs",
+            "core"
+        ],
+        "description": ""
+    },
+    {
+        "name": "lateral wrist curls",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "wrist",
+            "forearm"
+        ],
+        "description": ""
+    },
+    {
+        "name": "front raises",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "shoulders"
+        ],
+        "description": ""
+    },
+    {
+        "name": "trx saws",
+        "weight": "trx",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "core",
+            "back"
+        ],
+        "description": ""
+    },
+    {
+        "name": "trx push ups",
+        "weight": "trx",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "core",
+            "chest"
+        ],
+        "description": ""
+    },
+    {
+        "name": "trx tricept extensions",
+        "weight": "trx",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "core",
+            "tricepts"
+        ],
+        "description": ""
+    },
+    {
+        "name": "trx single leg squats",
+        "weight": "trx",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "core",
+            "legs"
+        ],
+        "description": ""
+    },
+    {
+        "name": "dynamic twists",
+        "weight": "band",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "sagital",
+        "targets": [
+            "core",
+            "legs"
+        ],
+        "description": ""
+    },
+    {
+        "name": "trx IYTs",
+        "weight": "trx",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "core",
+            "shoulders",
+            "back"
+        ],
+        "description": ""
+    },
+    {
+        "name": "trx bridges",
+        "weight": "trx",
+        "speed": "fast",
+        "type": "power",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "core",
+            "legs"
+        ],
+        "description": ""
+    },
+    {
+        "name": "pull ups",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "back",
+            "shoulders"
+        ],
+        "description": ""
+    },
+    {
+        "name": "single arm rows",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "back",
+            "shoulders"
+        ],
+        "description": ""
+    },
+    {
+        "name": "biker rows",
+        "weight": "",
+        "speed": "medium",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "back",
+            "shoulders",
+            "hips"
+        ],
+        "description": ""
+    },
+    {
+        "name": "chest flys",
+        "weight": "",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "shoulders",
+            "chest"
+        ],
+        "description": ""
+    },
+    {
+        "name": "1 arm pulls",
+        "weight": "iso",
+        "speed": "slow",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "shoulders",
+            "chest",
+            "fingers"
+        ],
+        "description": ""
+    },
+    {
+        "name": "repeaters",
+        "weight": "",
+        "speed": "",
+        "type": "strength",
+        "duration": "10 on 7 off",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "fingers"
+        ],
+        "description": ""
+    },
+    {
+        "name": "max hangs",
+        "weight": "",
+        "speed": "",
+        "type": "strength",
+        "duration": "10 on 120 off",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "fingers"
+        ],
+        "description": ""
+    },
+    {
+        "name": "finger curls",
+        "weight": "",
+        "speed": "",
+        "type": "strength",
+        "duration": "30 on",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "fingers"
+        ],
+        "description": ""
+    },
+    {
+        "name": "pinch block",
+        "weight": "",
+        "speed": "",
+        "type": "strength",
+        "duration": "10 on",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "fingers"
+        ],
+        "description": ""
+    },
+    {
+        "name": "1 arm row",
+        "weight": "ISO",
+        "speed": "",
+        "type": "strength",
+        "duration": "",
+        "plane_of_movement": "frontal",
+        "targets": [
+            "fingers"
+        ],
+        "description": ""
+    }
+]
