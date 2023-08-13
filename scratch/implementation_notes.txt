@@ -1,9 +1,21 @@
-finish workout show screen
-    edit modal for these...?
-
 when you enter number of circuits we should only make those
     the user shouldnt have to answer this 
     add a number of workouts for a circuit too 
+
+
+generate work set button 
+
+    if you have that exercise
+        it will look at the average weight and reps of each exercise
+    if not you will gen the default weight and reps
+
+
+I am making a map out of the template exercise
+    make columns match on template exercise and exercise table
+    need to make this into an exercise (add workout id)
+
+    
+    
 
 
 
