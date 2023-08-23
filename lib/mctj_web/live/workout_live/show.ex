@@ -32,32 +32,17 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   @impl true
-  def handle_event("add_exercise", params, socket) do
+  def handle_event("add_exercise", _params, socket) do
     {:noreply, assign(socket, add_exercise: :new)}
   end
 
   def handle_event("generate_exercise", _params, socket) do
-    IO.inspect(socket.assigns.workout, label: :workout)
-
     workout = socket.assigns.workout
 
-    exercise = generate_workout_by_type(workout.type)
-
-    final_exercise =
-      if Enum.empty?(workout.exercises) do
-        exercise
-      else
-        if Enum.filter(workout.exercises, &(&1.name == exercise.name)) do
-          generate_workout_by_type(workout.type)
-        else
-          exercise
-        end
-      end
-      |> Map.take([:is_fingers, :metadata, :movement, :name, :plane, :reps, :time, :weight])
-
-    IO.inspect(final_exercise, labal: :final_exercise)
-
-
+    generated_exercise =
+      check_dupe_and_generate_exercise(workout)
+      |> merge_template(workout)
+      |> Exercises.create_exercise()
 
     {:noreply,
      assign(socket,
@@ -76,10 +61,16 @@ defmodule MctjWeb.WorkoutLive.Show do
 
   def handle_event(
         "save_exercise",
-        _params,
+        params,
         socket
       ) do
     workout = socket.assigns.workout
+    IO.inspect(params, label: :not_inserting_params)
+    attrs = Map.put(params, "workout_id", workout.id)
+    Exercises.create_exercise(attrs)
+
+    # <button type="button" phx-click="add_exercise"
+    #   class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Create Custom Exercise</button>
 
     {:noreply,
      assign(socket,
@@ -148,5 +139,49 @@ defmodule MctjWeb.WorkoutLive.Show do
       "power endurance" -> Template_Exercises.get_random_cross_training_exercise()
       "power" -> Template_Exercises.get_random_cross_training_exercise()
     end
+  end
+
+  defp check_dupe_and_generate_exercise(workout) do
+    # need to check for duped exercises
+    exercise =
+      if Enum.empty?(workout.exercises) do
+        IO.inspect(workout, label: :workout)
+        generate_workout_by_type(workout.type)
+      else
+        generate_workout_by_type(workout.type)
+      end
+
+    Map.take(exercise, [
+      :is_fingers,
+      :metadata,
+      :movement,
+      :name,
+      :plane,
+      :reps,
+      :time,
+      :weight
+    ])
+  end
+
+  defp merge_template(attrs, workout) do
+    %{
+      workout_id: workout.id,
+      metadata: %{
+        "sets" => workout.sets,
+        "completed_sets" => 0,
+        "is_fingers" => attrs["is_fingers"],
+        "movement" => attrs["movement"],
+        "plane" => attrs["plane"],
+        "time" => attrs["time"]
+      },
+      name: attrs.name,
+      reps:
+        if attrs.reps - 1 do
+          Integer.to_string(attrs.reps)
+        else
+          attrs.reps
+        end,
+      weight: attrs.weight
+    }
   end
 end

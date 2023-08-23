@@ -17,7 +17,7 @@ defmodule Mctj.Exercises do
   def create_exercise(attrs \\ %{}) do
     %Exercise{}
     |> Exercise.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert!()
   end
 
   def update_exercise(%Exercise{} = exercise, attrs) do
