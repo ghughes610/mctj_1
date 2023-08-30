@@ -39,11 +39,9 @@ defmodule MctjWeb.WorkoutLive.Show do
   def handle_event("generate_exercise", _params, socket) do
     workout = socket.assigns.workout
 
-    generated_exercise =
-      check_dupe_and_generate_exercise(workout)
-      # |> IO.inspect(label: :in_pipeline)
-      # |> merge_template(workout)
-      |> Exercises.create_exercise()
+    check_dupe_and_generate_exercise(workout)
+    |> merge_template(workout)
+    |> Exercises.create_exercise()
 
     {:noreply,
      assign(socket,
@@ -143,7 +141,6 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp check_dupe_and_generate_exercise(workout) do
-    # need to check for duped exercises
     generated_exercise = generate_workout_by_type(workout.type)
 
     generated_exercise =
@@ -157,24 +154,21 @@ defmodule MctjWeb.WorkoutLive.Show do
                 exercise.name == generated_exercise.name
               end)
 
-            IO.inspect(duped_exercises, label: :duped_exercises)
-
             if Enum.count(duped_exercises) == 0 do
               generated_exercise
             else
               IO.inspect("We have a problem 1")
-              # check_dupe_and_generate_exercise(workout)
             end
           end)
 
-        if Enum.count(exercises) == 1 do
-          exercises
-        else
-          IO.inspect("We have a problem 2")
-        end
+        exercises =
+          if Enum.count(exercises) == 1 do
+            exercises
+          else
+            IO.inspect("We have a problem 2")
+          end
 
-        new_exercise = Enum.at(exercises, 0)
-        IO.inspect(new_exercise, label: :new_exercise)
+        Enum.at(exercises, 0)
       end
 
     Map.take(generated_exercise, [
@@ -190,10 +184,74 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp merge_template(attrs, workout) do
-    # Need to get the key nil this is wrong.
-    # get the workouts circuits and determine the number of circuits with that we also will always have 3 exercises per circuit
+    IO.inspect(attrs)
+    IO.inspect(workout)
 
-    attrs = %{
+    circuit_number =
+      if workout.exercises == %{} do
+        "1"
+      else
+        IO.inspect(workout.exercises)
+
+        cond do
+          workout.exercises["1"] == nil ->
+            "1"
+          workout.exercises["1"] ->
+            if Enum.count(workout.exercises["1"]) == 3 do
+              "2"
+            else
+              "1"
+            end
+
+          workout.exercises["2"] == nil -> "2"
+          workout.exercises["2"] ->
+            if Enum.count(workout.exercises["2"]) == 3 do
+              "3"
+            else
+              "2"
+            end
+          workout.exercises["3"] == nil -> "3"
+          workout.exercises["3"] ->
+            if Enum.count(workout.exercises["3"]) == 3 do
+              "3"
+            else
+              "This is an extra circuit!"
+            end
+        end
+
+          # "1" => [
+          #     %Mctj.Exercises.Exercise{
+          #       __meta__: #Ecto.Schema.Metadata<:loaded, "exercises">,
+          #       id: 110,
+          #       metadata: %{
+          #         "circuit_number" => "1",
+          #         "completed_sets" => 0,
+          #         "is_fingers" => nil,
+          #         "movement" => nil,
+          #         "plane" => nil,
+          #         "sets" => 3,
+          #         "time" => nil
+          #       },
+          #       name: "Trx Tricep Extensions",
+          #       reps: "0",
+          #       weight: "vest",
+          #       inserted_at: ~N[2023-08-30 02:53:49],
+          #       updated_at: ~N[2023-08-30 02:53:49],
+          #       workout_id: 14,
+          #       workout: #Ecto.Association.NotLoaded<association :workout is not loaded>
+          #     }
+          #   ]
+
+        # "this is a placeholder"
+        # "#{Map.size(workout.exercises) + 1} exercises in this circuit"
+        # cond do
+        #   exercise.metadata["circuit_number"] == "1" -> "1"
+        #   exercise.metadata["circuit_number"] == "2" -> "2"
+        #   exercise.metadata["circuit_number"] == "3" -> "3"
+        # end
+      end
+
+    %{
       workout_id: workout.id,
       metadata: %{
         "sets" => workout.sets,
@@ -202,7 +260,7 @@ defmodule MctjWeb.WorkoutLive.Show do
         "movement" => attrs["movement"],
         "plane" => attrs["plane"],
         "time" => attrs["time"],
-        "circuit_number" => attrs["circuit_number"]
+        "circuit_number" => circuit_number
       },
       name: attrs.name,
       reps:
