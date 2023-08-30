@@ -157,18 +157,14 @@ defmodule MctjWeb.WorkoutLive.Show do
             if Enum.count(duped_exercises) == 0 do
               generated_exercise
             else
-              IO.inspect("We have a problem 1")
             end
           end)
 
-        exercises =
-          if Enum.count(exercises) == 1 do
-            exercises
-          else
-            IO.inspect("We have a problem 2")
-          end
-
-        Enum.at(exercises, 0)
+        if Enum.count(exercises) == 1 do
+          Enum.at(exercises, 0)
+        else
+          generate_workout_by_type(workout.type)
+        end
       end
 
     Map.take(generated_exercise, [
@@ -184,71 +180,41 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp merge_template(attrs, workout) do
-    IO.inspect(attrs)
-    IO.inspect(workout)
-
     circuit_number =
       if workout.exercises == %{} do
         "1"
       else
-        IO.inspect(workout.exercises)
-
         cond do
           workout.exercises["1"] == nil ->
             "1"
+
           workout.exercises["1"] ->
-            if Enum.count(workout.exercises["1"]) == 3 do
-              "2"
+            if Enum.count(workout.exercises["1"]) >= 3 do
+              cond do
+                workout.exercises["2"] == nil ->
+                  "2"
+
+                workout.exercises["2"] ->
+                  if Enum.count(workout.exercises["2"]) >= 3 do
+                    cond do
+                      workout.exercises["3"] == nil ->
+                        "3"
+
+                      workout.exercises["3"] ->
+                        if Enum.count(workout.exercises["3"]) == 3 do
+                          "3"
+                        else
+                          "3"
+                        end
+                    end
+                  else
+                    "2"
+                  end
+              end
             else
               "1"
             end
-
-          workout.exercises["2"] == nil -> "2"
-          workout.exercises["2"] ->
-            if Enum.count(workout.exercises["2"]) == 3 do
-              "3"
-            else
-              "2"
-            end
-          workout.exercises["3"] == nil -> "3"
-          workout.exercises["3"] ->
-            if Enum.count(workout.exercises["3"]) == 3 do
-              "3"
-            else
-              "This is an extra circuit!"
-            end
         end
-
-          # "1" => [
-          #     %Mctj.Exercises.Exercise{
-          #       __meta__: #Ecto.Schema.Metadata<:loaded, "exercises">,
-          #       id: 110,
-          #       metadata: %{
-          #         "circuit_number" => "1",
-          #         "completed_sets" => 0,
-          #         "is_fingers" => nil,
-          #         "movement" => nil,
-          #         "plane" => nil,
-          #         "sets" => 3,
-          #         "time" => nil
-          #       },
-          #       name: "Trx Tricep Extensions",
-          #       reps: "0",
-          #       weight: "vest",
-          #       inserted_at: ~N[2023-08-30 02:53:49],
-          #       updated_at: ~N[2023-08-30 02:53:49],
-          #       workout_id: 14,
-          #       workout: #Ecto.Association.NotLoaded<association :workout is not loaded>
-          #     }
-          #   ]
-
-        # "this is a placeholder"
-        # "#{Map.size(workout.exercises) + 1} exercises in this circuit"
-        # cond do
-        #   exercise.metadata["circuit_number"] == "1" -> "1"
-        #   exercise.metadata["circuit_number"] == "2" -> "2"
-        #   exercise.metadata["circuit_number"] == "3" -> "3"
-        # end
       end
 
     %{
