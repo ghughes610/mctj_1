@@ -41,7 +41,8 @@ defmodule MctjWeb.WorkoutLive.Show do
 
     generated_exercise =
       check_dupe_and_generate_exercise(workout)
-      |> merge_template(workout)
+      # |> IO.inspect(label: :in_pipeline)
+      # |> merge_template(workout)
       |> Exercises.create_exercise()
 
     {:noreply,
@@ -65,7 +66,7 @@ defmodule MctjWeb.WorkoutLive.Show do
         socket
       ) do
     workout = socket.assigns.workout
-    IO.inspect(params, label: :not_inserting_params)
+
     attrs = Map.put(params, "workout_id", workout.id)
     Exercises.create_exercise(attrs)
 
@@ -143,15 +144,40 @@ defmodule MctjWeb.WorkoutLive.Show do
 
   defp check_dupe_and_generate_exercise(workout) do
     # need to check for duped exercises
-    exercise =
+    generated_exercise = generate_workout_by_type(workout.type)
+
+    generated_exercise =
       if Enum.empty?(workout.exercises) do
-        IO.inspect(workout, label: :workout)
-        generate_workout_by_type(workout.type)
+        generated_exercise
       else
-        generate_workout_by_type(workout.type)
+        exercises =
+          Enum.map(deconstruct_exercises(workout.exercises), fn exercises_array ->
+            duped_exercises =
+              Enum.filter(exercises_array, fn exercise ->
+                exercise.name == generated_exercise.name
+              end)
+
+            IO.inspect(duped_exercises, label: :duped_exercises)
+
+            if Enum.count(duped_exercises) == 0 do
+              generated_exercise
+            else
+              IO.inspect("We have a problem 1")
+              # check_dupe_and_generate_exercise(workout)
+            end
+          end)
+
+        if Enum.count(exercises) == 1 do
+          exercises
+        else
+          IO.inspect("We have a problem 2")
+        end
+
+        new_exercise = Enum.at(exercises, 0)
+        IO.inspect(new_exercise, label: :new_exercise)
       end
 
-    Map.take(exercise, [
+    Map.take(generated_exercise, [
       :is_fingers,
       :metadata,
       :movement,
@@ -164,7 +190,10 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp merge_template(attrs, workout) do
-    %{
+    # Need to get the key nil this is wrong.
+    # get the workouts circuits and determine the number of circuits with that we also will always have 3 exercises per circuit
+
+    attrs = %{
       workout_id: workout.id,
       metadata: %{
         "sets" => workout.sets,
@@ -172,7 +201,8 @@ defmodule MctjWeb.WorkoutLive.Show do
         "is_fingers" => attrs["is_fingers"],
         "movement" => attrs["movement"],
         "plane" => attrs["plane"],
-        "time" => attrs["time"]
+        "time" => attrs["time"],
+        "circuit_number" => attrs["circuit_number"]
       },
       name: attrs.name,
       reps:
@@ -183,5 +213,13 @@ defmodule MctjWeb.WorkoutLive.Show do
         end,
       weight: attrs.weight
     }
+  end
+
+  defp deconstruct_exercises(exercises) do
+    Enum.map(exercises, fn {_, exercises} ->
+      Enum.map(exercises, fn exercise ->
+        exercise
+      end)
+    end)
   end
 end
