@@ -55,7 +55,24 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   def handle_event("generate_warm_up", _params, socket) do
-    {:noreply, socket}
+    exercises = Template_Exercises.get_warm_up()
+
+    Enum.map(exercises, fn e ->
+      Map.from_struct(e)
+      |> Map.new(fn {k, v} -> {Atom.to_string(k), v} end)
+      |> merge_template(socket.assigns.workout)
+      |> Exercises.create_exercise()
+    end)
+
+    {:noreply,
+     assign(socket,
+       add_exercise: false,
+       workout:
+         Workouts.sort_workouts_exercises(
+           Workouts.get_workout!(socket.assigns.workout.id)
+           |> Mctj.Repo.preload(:exercises)
+         )
+     )}
   end
 
   def handle_event(
@@ -132,11 +149,12 @@ defmodule MctjWeb.WorkoutLive.Show do
     |> Workouts.sort_workouts_exercises()
   end
 
-  defp generate_workout_by_type(type) do
-    case String.downcase(type) do
-      "endurance" -> Template_Exercises.get_random_endurance_exercise()
-      "power endurance" -> Template_Exercises.get_random_cross_training_exercise()
-      "power" -> Template_Exercises.get_random_cross_training_exercise()
+  defp generate_workout_by_type(type, exercise \\ nil) do
+    if !exercise do
+      parse_and_get_exercise(type)
+    else
+      # this should not be the exercise that was just generated
+      parse_and_get_exercise(type, exercise)
     end
   end
 
@@ -156,13 +174,13 @@ defmodule MctjWeb.WorkoutLive.Show do
 
             if Enum.count(duped_exercises) == 0 do
               generated_exercise
-            else
             end
           end)
 
         if Enum.count(exercises) == 1 do
           Enum.at(exercises, 0)
         else
+          # use the generate_workout_by_type/2 function to generate a new exercise and exclude the exercise that was passed in
           generate_workout_by_type(workout.type)
         end
       end
@@ -180,62 +198,26 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp merge_template(attrs, workout) do
-    circuit_number =
-      if workout.exercises == %{} do
-        "1"
-      else
-        cond do
-          workout.exercises["1"] == nil ->
-            "1"
-
-          workout.exercises["1"] ->
-            if Enum.count(workout.exercises["1"]) >= 3 do
-              cond do
-                workout.exercises["2"] == nil ->
-                  "2"
-
-                workout.exercises["2"] ->
-                  if Enum.count(workout.exercises["2"]) >= 3 do
-                    cond do
-                      workout.exercises["3"] == nil ->
-                        "3"
-
-                      workout.exercises["3"] ->
-                        if Enum.count(workout.exercises["3"]) == 3 do
-                          "3"
-                        else
-                          "3"
-                        end
-                    end
-                  else
-                    "2"
-                  end
-              end
-            else
-              "1"
-            end
-        end
-      end
-
     %{
       workout_id: workout.id,
       metadata: %{
         "sets" => workout.sets,
         "completed_sets" => 0,
         "is_fingers" => attrs["is_fingers"],
+        "edge_size" => attrs["edge_size"],
         "movement" => attrs["movement"],
         "plane" => attrs["plane"],
         "time" => attrs["time"],
-        "circuit_number" => circuit_number
+        "circuit_number" => put_circuit_number(workout)
       },
-      name: attrs.name,
+      name: attrs["name"] || attrs.name,
       reps:
-        if attrs.reps - 1 do
-          Integer.to_string(attrs.reps)
+        if attrs["reps"] || attrs.reps - 1 do
+          Integer.to_string(attrs["reps"] || attrs.reps)
         else
-          attrs.reps
+          attrs["reps"] || attrs.reps
         end,
-      weight: attrs.weight
+      weight: attrs["weight"] || attrs.weight
     }
   end
 
@@ -245,5 +227,44 @@ defmodule MctjWeb.WorkoutLive.Show do
         exercise
       end)
     end)
+  end
+
+  defp parse_and_get_exercise(type) do
+    case String.downcase(type) do
+      "endurance" -> Template_Exercises.get_random_endurance_exercise()
+      "power endurance" -> Template_Exercises.get_random_cross_training_exercise()
+      "power" -> Template_Exercises.get_random_cross_training_exercise()
+    end
+  end
+
+  defp parse_and_get_exercise(type, exercise) do
+    new_exercise =
+      case String.downcase(type) do
+        "endurance" -> Template_Exercises.get_random_endurance_exercise(exercise)
+        "power endurance" -> Template_Exercises.get_random_cross_training_exercise(exercise)
+        "power" -> Template_Exercises.get_random_cross_training_exercise(exercise)
+      end
+
+    if new_exercise.name == exercise.name do
+      case String.downcase(type) do
+        "endurance" -> Template_Exercises.get_random_endurance_exercise(exercise)
+        "power endurance" -> Template_Exercises.get_random_cross_training_exercise(exercise)
+        "power" -> Template_Exercises.get_random_cross_training_exercise(exercise)
+      end
+    end
+  end
+
+  def put_circuit_number(workout) do
+    if workout.exercises == %{} do
+      "1"
+    else
+      Enum.find_value(1..3, fn circuit_number ->
+        exercises = workout.exercises[Integer.to_string(circuit_number)]
+
+        if exercises == nil or Enum.count(exercises) < 3 do
+          Integer.to_string(circuit_number)
+        end
+      end) || "3"
+    end
   end
 end

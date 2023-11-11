@@ -14,7 +14,7 @@
           class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Warm Up Circuit</button>
         <button type="button" phx-click="generate_exercise"
           class="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Generate Exercise</button>
-        
+
       </span>
 
       <%= if @add_exercise in [:new] do %>
@@ -27,16 +27,16 @@
 
               <%= for {circuit, exercises} <- @workout.exercises do %>
 
-                <ul role="list" class="divide-y divide-gray-100">
+                <ul role="list" class=" ml-10 divide-y divide-gray-100">
                   <div class="text-white mb-3">
                     Circuit <%= circuit %>
                   </div>
 
                   <%= for exercise <- exercises do %>
-                    <li class="flex justify-between gap-x-6 py-4 w-96">
+                    <li class="flex justify-between gap-x-6 py-4 ">
                       <div class="flex gap-x-4">
                         <div class="min-w-0 flex-auto">
-                          
+
                           <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2">
                             <%= exercise.name %>
                           </p>
@@ -46,32 +46,18 @@
                           </p>
 
                           <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2">
-                            Weight: <%= exercise.weight %> 
+                            Weight: <%= exercise.weight %>
                           </p>
 
-                          <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2">
-                            Sets: <%= exercise.metadata["completed_sets"] %> / <%= @workout.sets %> 
-                          </p>
-                          
-                        </div>
-                      </div>
-                      <div class="my-3 hidden sm:flex sm:flex-col sm:items-end">
-
-                        <%= if exercise.metadata["completed_sets"] != @workout.sets do %>
-                          <div class="rounded-xl bg-green-100  hover:bg-green-500 hover:cursor-pointer">
-                            <p class="text-sm leading-6 text-gray-500 " phx-click="complete_set"
+                          <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2 hover:text-green-500 hover:cursor-pointer" phx-click="complete_set"
                               phx-value-id={exercise.id}>
-                              <%= MctjWeb.CommonComponents.PageComponents.checkmark_svg(assigns) %>
-                            </p>
-                          </div>
-                          
-                          <% else %>
-                            <div class="rounded-xl bg-green-200 px-3">
-                              <p class="text-sm leading-6 text-gray-500">🎉 DONE 🎉</p>
-                            </div>
-                            <% end %>
-                              <p class="mt-5 flex justify-center text-gray-900 rounded  bg-red-300 w-5 hover:bg-red-400 hover:cursor-pointer"
+                            Sets: <%= exercise.metadata["completed_sets"] %> / <%= @workout.sets %>
+                          </p>
+
+  <p class="mt-5 flex justify-center text-gray-900 rounded h-6 bg-red-300 w-5 hover:bg-red-400 hover:cursor-pointer"
                                 phx-click="delete" phx-value-id={exercise.id} data-confirm="Are you sure?">x</p>
+                        </div>
+
                       </div>
                     </li>
                     <% end %>

@@ -1,5 +1,4 @@
 defmodule Mctj.Template_Exercises do
-
   import Ecto.Query, warn: false
   alias Mctj.Repo
 
@@ -7,6 +6,25 @@ defmodule Mctj.Template_Exercises do
 
   def list_template_exercises do
     Repo.all(Template_exercise)
+  end
+
+  def get_warm_up() do
+    kb_press =
+      Template_exercise
+      |> where(name: "kettlebell swing press")
+      |> Repo.one()
+
+    anti_rows =
+      Template_exercise
+      |> where(name: "Anti Rows")
+      |> Repo.one()
+
+    iso_pulls =
+      Template_exercise
+      |> where(name: "Single Arm Pull")
+      |> Repo.one()
+
+      [iso_pulls, anti_rows, kb_press]
   end
 
   def get_random_cross_training_exercise() do
@@ -57,3 +75,5 @@ defmodule Mctj.Template_Exercises do
     Template_exercise.changeset(template_exercise, attrs)
   end
 end
+
+# Mctj.Template_Exercises.generate_warm_up()
