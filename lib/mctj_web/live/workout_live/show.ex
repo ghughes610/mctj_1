@@ -37,42 +37,22 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   def handle_event("generate_exercise", _params, socket) do
-    workout = socket.assigns.workout
-
-    check_dupe_and_generate_exercise(workout)
-    |> merge_template(workout)
+    check_dupe_and_generate_exercise(socket.assigns.workout)
+    |> merge_template(socket.assigns.workout)
     |> Exercises.create_exercise()
 
-    {:noreply,
-     assign(socket,
-       add_exercise: false,
-       workout:
-         Workouts.sort_workouts_exercises(
-           Workouts.get_workout!(workout.id)
-           |> Mctj.Repo.preload(:exercises)
-         )
-     )}
+    build_and_assign_socket(socket)
   end
 
   def handle_event("generate_warm_up", _params, socket) do
-    exercises = Template_Exercises.get_warm_up()
-
-    Enum.map(exercises, fn e ->
+    Enum.map(Template_Exercises.get_warm_up(), fn e ->
       Map.from_struct(e)
       |> Map.new(fn {k, v} -> {Atom.to_string(k), v} end)
       |> merge_template(socket.assigns.workout)
       |> Exercises.create_exercise()
     end)
 
-    {:noreply,
-     assign(socket,
-       add_exercise: false,
-       workout:
-         Workouts.sort_workouts_exercises(
-           Workouts.get_workout!(socket.assigns.workout.id)
-           |> Mctj.Repo.preload(:exercises)
-         )
-     )}
+    build_and_assign_socket(socket)
   end
 
   def handle_event(
@@ -81,22 +61,12 @@ defmodule MctjWeb.WorkoutLive.Show do
         socket
       ) do
     workout = socket.assigns.workout
-
-    attrs = Map.put(params, "workout_id", workout.id)
-    Exercises.create_exercise(attrs)
+    Exercises.create_exercise(Map.put(params, "workout_id", workout.id))
 
     # <button type="button" phx-click="add_exercise"
     #   class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Create Custom Exercise</button>
 
-    {:noreply,
-     assign(socket,
-       add_exercise: false,
-       workout:
-         Workouts.sort_workouts_exercises(
-           Workouts.get_workout!(workout.id)
-           |> Mctj.Repo.preload(:exercises)
-         )
-     )}
+    build_and_assign_socket(socket)
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
@@ -141,12 +111,6 @@ defmodule MctjWeb.WorkoutLive.Show do
     else
       "border-t bg-green-200"
     end
-  end
-
-  defp assign_workout_to_socket(exercise) do
-    Workouts.get_workout!(exercise.workout_id)
-    |> Mctj.Repo.preload([:exercises])
-    |> Workouts.sort_workouts_exercises()
   end
 
   defp generate_workout_by_type(type, exercise \\ nil) do
@@ -254,7 +218,7 @@ defmodule MctjWeb.WorkoutLive.Show do
     end
   end
 
-  def put_circuit_number(workout) do
+  defp put_circuit_number(workout) do
     if workout.exercises == %{} do
       "1"
     else
@@ -266,5 +230,23 @@ defmodule MctjWeb.WorkoutLive.Show do
         end
       end) || "3"
     end
+  end
+
+  defp assign_workout_to_socket(exercise) do
+    Workouts.get_workout!(exercise.workout_id)
+    |> Mctj.Repo.preload([:exercises])
+    |> Workouts.sort_workouts_exercises()
+  end
+
+  defp build_and_assign_socket(socket) do
+     {:noreply,
+     assign(socket,
+       add_exercise: false,
+       workout:
+         Workouts.sort_workouts_exercises(
+           Workouts.get_workout!(socket.assigns.workout.id)
+           |> Mctj.Repo.preload(:exercises)
+         )
+     )}
   end
 end
