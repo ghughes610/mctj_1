@@ -8,7 +8,6 @@
         <%= @workout.type %>
       </p>
 
-
       <span class="isolate inline-flex rounded-md shadow-sm mb-10">
         <button type="button" phx-click="generate_warm_up"
           class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Warm Up Circuit</button>
@@ -25,52 +24,14 @@
         </.modal>
       <% end %>
 
-              <%= for {circuit, exercises} <- @workout.exercises do %>
+      <div>
+        <%= MctjWeb.CommonComponents.PageComponents.workout_show_card_component(assigns) %>
+      </div>
 
-                <ul role="list" class=" ml-10 divide-y divide-gray-100">
-                  <div class="text-white mb-3">
-                    Circuit <%= circuit %>
-                  </div>
-
-                  <%= for exercise <- exercises do %>
-                    <li class="flex justify-between gap-x-6 py-4 ">
-                      <div class="flex gap-x-4">
-                        <div class="min-w-0 flex-auto">
-
-                          <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2">
-                            <%= exercise.name %>
-                          </p>
-
-                          <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2">
-                            Reps: <%= exercise.reps %>
-                          </p>
-
-                          <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2">
-                            Weight: <%= exercise.weight %>
-                          </p>
-
-                          <p class="pl-10 mt-1 truncate text-xl leading-5 text-gray-500 pt-2 hover:text-green-500 hover:cursor-pointer" phx-click="complete_set"
-                              phx-value-id={exercise.id}>
-                            Sets: <%= exercise.metadata["completed_sets"] %> / <%= @workout.sets %>
-                          </p>
-
-  <p class="mt-5 flex justify-center text-gray-900 rounded h-6 bg-red-300 w-5 hover:bg-red-400 hover:cursor-pointer"
-                                phx-click="delete" phx-value-id={exercise.id} data-confirm="Are you sure?">x</p>
-                        </div>
-
-                      </div>
-                    </li>
-                    <% end %>
-                </ul>
-
-                <% end %>
-
-
-                  <div class="mt-20 rounded bg-blue-300 p-2 hover:bg-green-300 md:items-center">
-                    <span class="text-gray-500">
-                      <%= live_redirect "Back to workouts" , to: Routes.workout_index_path(@socket,
-                        :index) %>
-                    </span>
-                  </div>
-
+      <div class="mt-20 rounded bg-blue-300 p-2 hover:bg-green-300 md:items-center">
+        <span class="text-gray-500">
+          <%= live_redirect "Back to workouts" , to: Routes.workout_index_path(@socket,
+            :index) %>
+        </span>
+      </div>
 </div>

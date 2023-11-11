@@ -1,17 +1,7 @@
-need to save an exercise like this 
-    "1":[exercise, exercise_1]
-right now they are saving like this
-    nil:[exercise, exercise_1]
-where am i setting the key to nil?
- in workouts.sort_exercise_workouts
-
-solution
-i need to save the exercise with a circuit key in its metadata
 
 
-I am making a map out of the template exercise
-    make columns match on template exercise and exercise table
-    need to make this into an exercise (add workout id)
+
+
 
     
     
