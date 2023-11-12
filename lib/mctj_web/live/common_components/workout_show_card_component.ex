@@ -1,4 +1,4 @@
-defmodule MctjWeb.CommonComponents.PageComponents do
+defmodule MctjWeb.CommonComponents.Workout do
   use MctjWeb, :view
 
   def workout_show_card_component(assigns) do
