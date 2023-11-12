@@ -222,13 +222,13 @@ defmodule MctjWeb.WorkoutLive.Show do
     if workout.exercises == %{} do
       "1"
     else
-      Enum.find_value(1..3, fn circuit_number ->
+      Enum.find_value(1..5, fn circuit_number ->
         exercises = workout.exercises[Integer.to_string(circuit_number)]
 
         if exercises == nil or Enum.count(exercises) < 3 do
           Integer.to_string(circuit_number)
         end
-      end) || "3"
+      end) || "5"
     end
   end
 
