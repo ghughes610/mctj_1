@@ -105,13 +105,6 @@ defmodule MctjWeb.WorkoutLive.Show do
   defp check_sets(completed_sets, workout_sets),
     do: if(completed_sets < workout_sets, do: completed_sets + 1, else: workout_sets)
 
-  def completed_bg_color(sets, completed_sets) do
-    if sets != completed_sets do
-      "border-t bg-gray-900"
-    else
-      "border-t bg-green-200"
-    end
-  end
 
   defp generate_workout_by_type(type, exercise \\ nil) do
     if !exercise do
