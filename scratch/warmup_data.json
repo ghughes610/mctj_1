@@ -1,6 +1,5 @@
 
 {
-  "position": "over head",
   "average_left_hand_pull": 112,
 "average_right_hand_pull": 117,
   "max_left_hand_pull": 121,
@@ -12,7 +11,6 @@
 }
 
 {
-  "position": "over head",
   "average_left_hand_pull": 120,
   "average_right_hand_pull": 130,
   "max_left_hand_pull": 135,
@@ -24,7 +22,6 @@
 }
 
 {
-  "position": "over head",
   "average_left_hand_pull": 118,
   "average_right_hand_pull": 127,
   "max_left_hand_pull": 138,
@@ -36,7 +33,6 @@
 }
 
 {
-  "position": "below waist",
   "average_left_hand_pull": 83,
   "average_right_hand_pull": 91,
   "max_left_hand_pull": 94,
@@ -48,7 +44,6 @@
 }
 
 {
-  "position": "below waist",
   "average_left_hand_pull": 93,
   "average_right_hand_pull": 101,
   "max_left_hand_pull": 103,
@@ -60,7 +55,6 @@
 }
 
 {
-  "position": "below waist",
   "average_left_hand_pull": 89,
   "average_right_hand_pull": 97,
   "max_left_hand_pull": 95,

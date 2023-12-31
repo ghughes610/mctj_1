@@ -41,7 +41,8 @@ defmodule MctjWeb.WorkoutLive.Show do
   def handle_event("upload_data", params, socket) do
     data = Jason.decode!(params["arduino_data"])
     |> Map.put("exercise", socket.assigns.exercise.name)
-    |> Map.put("set", 1)
+    |> Map.put("position", get_position(socket.assigns.exercise))
+    |> Map.put("set", socket.assigns.exercise.metadata["completed_sets"] + 1)
     |> Map.put("workout_id", socket.assigns.workout.id)
     |> Map.put("edge_size", socket.assigns.exercise.metadata["edge_size"])
 
@@ -261,5 +262,18 @@ defmodule MctjWeb.WorkoutLive.Show do
            |> Mctj.Repo.preload(:exercises)
          )
      )}
+  end
+
+  defp get_position(exercise) do
+    IO.inspect(exercise, label: :exercise)
+    if exercise.metadata["plane"] == "frontal" do
+      if String.contains?(exercise.name, "Pull") do
+        "overhead"
+      else
+        "floor lift"
+      end
+    else
+      "row"
+    end
   end
 end
