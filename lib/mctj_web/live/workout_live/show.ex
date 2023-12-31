@@ -4,10 +4,11 @@ defmodule MctjWeb.WorkoutLive.Show do
   alias Mctj.Workouts
   alias Mctj.Exercises
   alias Mctj.Template_Exercises
+  alias Mctj.Users
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, add_exercise: false)}
+    {:ok, assign(socket, add_exercise: false, upload_data: false)}
   end
 
   @impl true
@@ -34,6 +35,18 @@ defmodule MctjWeb.WorkoutLive.Show do
   @impl true
   def handle_event("add_exercise", _params, socket) do
     {:noreply, assign(socket, add_exercise: :new)}
+  end
+
+  @impl true
+  def handle_event("upload_data", params, socket) do
+    data = Jason.decode!(params["arduino_data"])
+    |> Map.put("exercise", "Single Arm Pull")
+    |> Map.put("set", 1)
+    |> Map.put("workout_id", socket.assigns.workout.id)
+
+    Users.create_finger_log(data)
+
+    {:noreply, assign(socket, upload_data: false)}
   end
 
   def handle_event("generate_exercise", _params, socket) do
@@ -88,6 +101,10 @@ defmodule MctjWeb.WorkoutLive.Show do
   def handle_event("complete_set", %{"id" => id}, socket) do
     exercise = Mctj.Exercises.get_exercise!(String.to_integer(id))
 
+    upload_data = if exercise.name == "Single Arm Pull" and exercise.weight =="iso" and socket.assigns.workout.sets > exercise.metadata["completed_sets"] do
+      true
+    end
+
     attrs =
       Map.merge(exercise.metadata, %{
         "completed_sets" =>
@@ -98,7 +115,8 @@ defmodule MctjWeb.WorkoutLive.Show do
 
     {:noreply,
      assign(socket,
-       workout: assign_workout_to_socket(exercise)
+       workout: assign_workout_to_socket(exercise),
+        upload_data: upload_data
      )}
   end
 

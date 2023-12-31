@@ -72,8 +72,8 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
     case Workouts.update_workout(socket.assigns.workout, workout_params) do
       {:ok, _workout} ->
         {:noreply,
-         socket
-         |> put_flash(:info, "Workout updated successfully")}
+        socket
+        |> put_flash(:info, "Workout updated successfully")}
         |> push_redirect(to: "/users/workouts")
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -82,6 +82,11 @@ defmodule MctjWeb.WorkoutLive.FormComponent do
   end
 
   defp save_workout(socket, :new, workout_params) do
+    workout_params =
+      workout_params
+      |> Map.put("number_of_circuits", 3)
+      |> Map.put("sets", 3)
+
     case Workouts.create_workout(workout_params) do
       {:ok, workout} ->
         {:noreply,

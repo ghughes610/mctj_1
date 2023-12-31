@@ -84,6 +84,7 @@ defmodule MctjWeb.Router do
     live "/users/workouts/:id", WorkoutLive.Show
     live "/user/climbs", ClimbLive.Index, :index
     live "/user/user_climbs", UserClimbLive.Index, :index
+    live "/user/upload_data", UserDataLive.Upload, :index
   end
 
   scope "/", MctjWeb do

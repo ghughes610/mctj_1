@@ -28,6 +28,7 @@ defmodule MctjWeb.CommonComponents.WorkoutShowCardComponent do
               <p class="mt-6 ml-2 flex items-baseline gap-x-1">
                 <button type="button" phx-click="complete_set" phx-value-id="<%= exercise.id %>" class="relative -ml-px inline-flex items-center bg-green-100 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Complete set</button>
               </p>
+
               <p class="mt-6 ml-2 flex items-baseline gap-x-1">
                 <button type="button" phx-click="delete" phx-value-id="<%= exercise.id %>" class="relative -ml-px inline-flex items-center bg-red-100 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Delete</button>
               </p>

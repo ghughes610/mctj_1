@@ -4,7 +4,7 @@ defmodule MctjWeb.UserClimbLive.Index do
   alias Mctj.UserClimbs
 
   @impl true
-  def mount(params, session, socket) do
+  def mount(_params, session, socket) do
     socket = assign_defaults(session, socket)
 
     climbs = UserClimbs.list_user_climbs(socket.assigns.current_user.id)

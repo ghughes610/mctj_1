@@ -15,3 +15,6 @@ column names are
     "set"
     "rest_time"
     "workout_id"
+
+
+mix phx.gen.context Users FingerLog finger_logs exercise:string position:string average_left_hand_pull:integer average_right_hand_pull:integer max_left_hand_pull:integer max_right_hand_pull:integer time_on:integer time_off:integer reps:integer set:integer rest_time:integer workout_id:references:workouts

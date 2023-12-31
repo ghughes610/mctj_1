@@ -9,6 +9,7 @@ defmodule Mctj.Workouts.Workout do
     field :metadata, :map
     field :sets, :integer
     field :number_of_circuits, :integer
+    field :body_weight, :integer
 
     timestamps()
 
@@ -17,6 +18,6 @@ defmodule Mctj.Workouts.Workout do
 
   def changeset(workout, attrs) do
     workout
-    |> cast(attrs, [:name, :type, :metadata, :user_id, :number_of_circuits, :sets])
+    |> cast(attrs, [:name, :type, :metadata, :user_id, :number_of_circuits, :sets, :body_weight])
   end
 end

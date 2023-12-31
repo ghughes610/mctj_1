@@ -24,6 +24,25 @@
         </.modal>
       <% end %>
 
+      <%= if @upload_data do %>
+        <.modal>
+          <div class="flex items-center justify-center mt-5 text-xl font-semibold">
+              <h1 class="mt-10 text-2xl font-bold tracking-tigh sm:text-6xl">Upload Data</h1>
+          </div>
+          <form phx-submit="upload_data">
+              <div class="flex items-center justify-center mt-32">
+                  <textarea name="arduino_data" rows="10" cols="30" class="resize-none">
+                  </textarea>
+              </div>
+              <div class="flex items-center justify-center mt-10">
+                  <button type="submit"
+                      class="relative -ml-px inline-flex items-center bg-green-100 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Upload
+                      Data</button>
+              </div>
+          </form>
+        </.modal>
+      <% end %>
+
       <div>
         <%= MctjWeb.CommonComponents.WorkoutShowCardComponent.workout_show_card_component(assigns) %>
       </div>
