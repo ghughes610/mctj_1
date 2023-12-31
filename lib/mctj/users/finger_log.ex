@@ -14,6 +14,7 @@ defmodule Mctj.Users.FingerLog do
     field :time_off, :integer
     field :reps, :integer
     field :rest_time, :integer
+    field :edge_size, :string
     field :workout_id, :id
 
     timestamps()
@@ -22,8 +23,8 @@ defmodule Mctj.Users.FingerLog do
   @doc false
   def changeset(finger_log, attrs) do
     finger_log
-    |> cast(attrs, [:exercise, :position, :average_left_hand_pull, :average_right_hand_pull, :max_left_hand_pull, :max_right_hand_pull, :time_on, :time_off, :reps, :set, :rest_time, :workout_id])
-    |> validate_required([:exercise, :position, :average_left_hand_pull, :average_right_hand_pull, :max_left_hand_pull, :max_right_hand_pull, :time_on, :time_off, :reps, :set, :rest_time, :workout_id
+    |> cast(attrs, [:exercise, :position, :average_left_hand_pull, :average_right_hand_pull, :max_left_hand_pull, :max_right_hand_pull, :time_on, :time_off, :reps, :set, :rest_time,  :edge_size, :workout_id])
+    |> validate_required([:exercise, :position, :average_left_hand_pull, :average_right_hand_pull, :max_left_hand_pull, :max_right_hand_pull, :time_on, :time_off, :reps, :set, :rest_time, :edge_size, :workout_id
     ])
   end
 end

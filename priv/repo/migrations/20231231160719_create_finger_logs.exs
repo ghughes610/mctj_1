@@ -14,6 +14,7 @@ defmodule Mctj.Repo.Migrations.CreateFingerLogs do
       add :reps, :integer
       add :set, :integer
       add :rest_time, :integer
+      add :edge_size, :string
       add :workout_id, references(:workouts, on_delete: :nothing)
 
       timestamps()

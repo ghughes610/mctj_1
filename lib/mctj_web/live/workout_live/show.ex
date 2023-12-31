@@ -40,9 +40,10 @@ defmodule MctjWeb.WorkoutLive.Show do
   @impl true
   def handle_event("upload_data", params, socket) do
     data = Jason.decode!(params["arduino_data"])
-    |> Map.put("exercise", "Single Arm Pull")
+    |> Map.put("exercise", socket.assigns.exercise.name)
     |> Map.put("set", 1)
     |> Map.put("workout_id", socket.assigns.workout.id)
+    |> Map.put("edge_size", socket.assigns.exercise.metadata["edge_size"])
 
     Users.create_finger_log(data)
 
@@ -101,7 +102,7 @@ defmodule MctjWeb.WorkoutLive.Show do
   def handle_event("complete_set", %{"id" => id}, socket) do
     exercise = Mctj.Exercises.get_exercise!(String.to_integer(id))
 
-    upload_data = if exercise.name == "Single Arm Pull" and exercise.weight =="iso" and socket.assigns.workout.sets > exercise.metadata["completed_sets"] do
+    upload_data = if exercise.metadata["is_fingers"] and exercise.weight =="iso" and socket.assigns.workout.sets > exercise.metadata["completed_sets"] do
       true
     end
 
@@ -116,7 +117,8 @@ defmodule MctjWeb.WorkoutLive.Show do
     {:noreply,
      assign(socket,
        workout: assign_workout_to_socket(exercise),
-        upload_data: upload_data
+        upload_data: upload_data,
+        exercise: exercise
      )}
   end
 
@@ -179,7 +181,7 @@ defmodule MctjWeb.WorkoutLive.Show do
         "sets" => workout.sets,
         "completed_sets" => 0,
         "is_fingers" => attrs["is_fingers"],
-        "edge_size" => attrs["edge_size"],
+        "edge_size" => "20mm",
         "movement" => attrs["movement"],
         "plane" => attrs["plane"],
         "time" => attrs["time"],
