@@ -1,0 +1,74 @@
+"body_weight" = 181
+"date" = "2023-12-29"
+
+ "set_1" = %{
+    position: "over head",
+    "average_left_hand_pull": 112,
+    "average_right_hand_pull": 117,
+    "max_left_hand_pull": 121,
+    "max_right_hand_pull": 142,
+    "time_on": 5,
+    "time_off": 5,
+    "reps": 5,
+    "rest_time": 180
+}
+
+"set_2" = %{
+  position: "over head",
+  "average_left_hand_pull": 120,
+  "average_right_hand_pull": 130,
+  "max_left_hand_pull": 135,
+  "max_right_hand_pull": 137,
+  "time_on": 5,
+  "time_off": 5,
+  "reps": 5,
+  "rest_time": 180
+}
+
+"set_3" = %{
+    position: "over head",
+  "average_left_hand_pull": 118,
+  "average_right_hand_pull": 127,
+  "max_left_hand_pull": 138,
+  "max_right_hand_pull": 139,
+  "time_on": 5,
+  "time_off": 5,
+  "reps": 5,
+  "rest_time": 180
+}
+
+"set_4" = %{
+  position: "below waist",
+  "average_left_hand_pull": 83,
+  "average_right_hand_pull": 91,
+  "max_left_hand_pull": 94,
+  "max_right_hand_pull": 102,
+  "time_on": 5,
+  "time_off": 5,
+  "reps": 5,
+  "rest_time": 180
+}
+
+"set_5" = %{
+  position: "below waist",
+  "average_left_hand_pull": 93,
+  "average_right_hand_pull": 101,
+  "max_left_hand_pull": 103,
+  "max_right_hand_pull": 114,
+  "time_on": 5,
+  "time_off": 5,
+  "reps": 5,
+  "rest_time": 180
+}
+
+"set_6" = %{
+  position: "below waist",
+  "average_left_hand_pull": 89,
+  "average_right_hand_pull": 97,
+  "max_left_hand_pull": 95,
+  "max_right_hand_pull": 105,
+  "time_on": 5,
+  "time_off": 5,
+  "reps": 5,
+  "rest_time": 180
+}

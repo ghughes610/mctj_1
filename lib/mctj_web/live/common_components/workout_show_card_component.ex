@@ -1,9 +1,9 @@
-defmodule MctjWeb.CommonComponents.Workout do
+defmodule MctjWeb.CommonComponents.WorkoutShowCardComponent do
   use MctjWeb, :view
 
   def workout_show_card_component(assigns) do
     ~L"""
-    <%= for circuit <- assigns.workout.exercises do %>
+         <%= for circuit <- assigns.workout.exercises do %>
       <div class="bg-white my-5">
         <div class="flex justify-center pt-3 text-xl font-semibold leading-8">Circuit <%= elem(circuit, 0) %></div>
         <div class="flex justify-between bg-white  ring-1 ring-gray-200 xl:p-8 lg:mt-8 lg:rounded-r-none">

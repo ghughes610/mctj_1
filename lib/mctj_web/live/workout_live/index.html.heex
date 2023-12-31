@@ -42,31 +42,13 @@
                   <p class="mt-6 text-lg leading-8 text-gray-300">Workouts from this week</p>
                   <p class="relative z-10 rounded-full bg-gray-100 py-1.5 pl-4 mt-3 font-medium text-gray-600 hover:bg-green-300 w-40"><%= live_redirect "Create a workout", to: Routes.workout_form_component_path(@socket, :index) %></p>
                 </div>
-                <div class="ml-36 mt-10 grid grid-cols-2 gap-12">
-                  <%= for workout <- @workouts do %>
-                  <div id={"workout-#{workout.id}"} class="p-4 bg-cyan-300 rounded-lg h-28">
-                    <div class="flex items-center gap-x-2 text-xs">
-                        <time class="text-gray-500"><%= Timex.format!(workout.inserted_at, "{0M}/{D}/{YYYY}") %></time>
-                          <div class="flex flex-row items-center justify-center rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600 whitespace-nowrap">
-                            <%= workout.type %>
-                          </div>
-                        <span class="relative z-10 rounded-full bg-gray-50 py-1.5 px-3 font-medium text-gray-600 hover:bg-red-200">
-                          <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: workout.id, data: [confirm: "Are you sure?"] %>
-                        </span>
-                        </div>
-                        <div class="group relative">
-                          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-500">
-                                <%= live_patch "#{workout.name}", to: Routes.live_path(@socket, MctjWeb.WorkoutLive.Show, workout), class: "button" %>
-                          </h3>
-                        </div>
-                        <div class="text-sm flex flex-row justify-center pt-2">
-                          <div>
-                            circuits: <%= workout.number_of_circuits %>
-                          </div>
-                        </div>
-                    </div>
-                  <% end %>
-                </div>
+        
+                  <div class="ml-36 mt-10 grid grid-cols-2 gap-12">
+                    <%= if assigns.workouts != [] do %>
+                      <%= MctjWeb.CommonComponents.WorkoutShowCardComponent.workout_show_card_component(assigns) %>
+                    <% end %>
+                  </div>
+                
             </div>
             </div>
             

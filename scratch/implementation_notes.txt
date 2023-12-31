@@ -1,11 +1,17 @@
-
-
-
-
-
-    
-    
-
-
-
-    
+parse up upload date from ardiuno
+    make parser for this data 
+add this data to a table that is called "Workout Finger Log"
+column names are 
+    "exercise"
+    "load"
+    "position"
+    "average_left_hand_pull"
+    "average_right_hand_pull"
+    "max_left_hand_pull"
+    "max_right_hand_pull"
+    "time_on"
+    "time_off"
+    "reps"
+    "set"
+    "rest_time"
+    "workout_id"
