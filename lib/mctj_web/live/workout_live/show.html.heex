@@ -1,56 +1,73 @@
 <div class="w-full flex flex-col justify-center items-center">
 
-      <h1 class="font-bold p-2 text-4xl text-gray-300 md:pl-4 mt-3">
-        <%= @workout.name %>
-      </h1>
+  <h1 class="font-bold p-2 text-4xl text-gray-300 md:pl-4 mt-3">
+    <%= @workout.name %>
+  </h1>
 
-      <p class="font-bold pb-2 text-xl text-gray-300 md:pl-4 mt-3 mb-5">
-        <%= @workout.type %>
-      </p>
+  <p class="font-bold pb-2 text-xl text-gray-300 md:pl-4 mt-3 mb-5">
+    <%= @workout.type %>
+  </p>
 
-      <span class="isolate inline-flex rounded-md shadow-sm mb-10">
-        <button type="button" phx-click="generate_warm_up"
-          class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Warm Up Circuit</button>
-        <button type="button" phx-click="generate_exercise"
-          class="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Generate Exercise</button>
+  <span class="isolate inline-flex rounded-md shadow-sm mb-10">
+    <button type="button" phx-click="generate_warm_up"
+      class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Warm
+      Up Circuit</button>
+    <button type="button" phx-click="generate_exercise"
+      class="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Generate
+      Exercise</button>
 
-      </span>
+  </span>
 
-      <%= if @add_exercise in [:new] do %>
-        <.modal return_to={Routes.workout_index_path(@socket, :index)}>
-          <.live_component module={MctjWeb.ExerciseLive.FormComponent} id={@workout.id || :new}
-            action={@live_action} workout={@workout} return_to={Routes.workout_index_path(@socket,
-            :index)} />
+  <%= if @add_exercise in [:new] do %>
+    <.modal return_to={Routes.workout_index_path(@socket, :index)}>
+      <.live_component module={MctjWeb.ExerciseLive.FormComponent} id={@workout.id || :new}
+        action={@live_action} workout={@workout} return_to={Routes.workout_index_path(@socket,
+        :index)} />
+    </.modal>
+    <% end %>
+
+      <%= if @upload_data == :uploaded do %>
+        <.modal>
+          <div class="flex items-center justify-center mt-5 text-xl font-semibold">
+            <h1 class="mt-10 text-2xl font-bold tracking-tigh sm:text-6xl">Success!</h1>
+          </div>
+          <div class="flex-col items-center justify-center mt-10">
+            <div class="p-1">Average S:W Ratio: <%= @modal_data.average_strength_to_weight_ratio %></div>
+            <div class="p-1">Max S:W Ratio: <%= @modal_data.max_strength_to_weight_ratio %></div>
+            <div class="p-1">Time Under Tension: <%= @modal_data.tut %></div>
+          </div>
         </.modal>
       <% end %>
 
-      <%= if @upload_data do %>
+      <%= if @upload_data == :new do %>
         <.modal>
           <div class="flex items-center justify-center mt-5 text-xl font-semibold">
-              <h1 class="mt-10 text-2xl font-bold tracking-tigh sm:text-6xl">Upload Data</h1>
+            <h1 class="mt-10 text-2xl font-bold tracking-tigh sm:text-6xl">Upload Data</h1>
           </div>
           <form phx-submit="upload_data">
-              <div class="flex items-center justify-center mt-32">
-                  <textarea name="arduino_data" rows="10" cols="30" class="resize-none">
-                  </textarea>
-              </div>
-              <div class="flex items-center justify-center mt-10">
-                  <button type="submit"
-                      class="relative -ml-px inline-flex items-center bg-green-100 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Upload
-                      Data</button>
-              </div>
+            <div class="flex items-center justify-center mt-32">
+              <textarea name="arduino_data" rows="10" cols="30" class="resize-none">
+                        </textarea>
+            </div>
+            <div class="flex items-center justify-center mt-10">
+              <button type="submit"
+                class="relative -ml-px inline-flex items-center bg-green-100 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 mx-1">Upload
+                Data</button>
+            </div>
           </form>
         </.modal>
       <% end %>
 
-      <div>
-        <%= MctjWeb.CommonComponents.WorkoutShowCardComponent.workout_show_card_component(assigns) %>
-      </div>
+            <div>
+              <%=
+                MctjWeb.CommonComponents.WorkoutShowCardComponent.workout_show_card_component(assigns)
+                %>
+            </div>
 
-      <div class="mt-20 rounded bg-blue-300 p-2 hover:bg-green-300 md:items-center">
-        <span class="text-gray-500">
-          <%= live_redirect "Back to workouts" , to: Routes.workout_index_path(@socket,
-            :index) %>
-        </span>
-      </div>
+            <div class="mt-20 rounded bg-blue-300 p-2 hover:bg-green-300 md:items-center">
+              <span class="text-gray-500">
+                <%= live_redirect "Back to workouts" , to: Routes.workout_index_path(@socket,
+                  :index) %>
+              </span>
+            </div>
 </div>

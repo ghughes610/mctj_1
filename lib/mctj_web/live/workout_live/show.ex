@@ -39,16 +39,21 @@ defmodule MctjWeb.WorkoutLive.Show do
 
   @impl true
   def handle_event("upload_data", params, socket) do
-    data = Jason.decode!(params["arduino_data"])
-    |> Map.put("exercise", socket.assigns.exercise.name)
-    |> Map.put("position", get_position(socket.assigns.exercise))
-    |> Map.put("set", socket.assigns.exercise.metadata["completed_sets"] + 1)
-    |> Map.put("workout_id", socket.assigns.workout.id)
-    |> Map.put("edge_size", socket.assigns.exercise.metadata["edge_size"])
+    data =
+      Jason.decode!(params["arduino_data"])
+      |> Map.put("exercise", socket.assigns.exercise.name)
+      |> Map.put("position", get_position(socket.assigns.exercise))
+      |> Map.put("set", socket.assigns.exercise.metadata["completed_sets"] + 1)
+      |> Map.put("workout_id", socket.assigns.workout.id)
+      |> Map.put("edge_size", socket.assigns.exercise.metadata["edge_size"])
 
     Users.create_finger_log(data)
 
-    {:noreply, assign(socket, upload_data: false)}
+    {:noreply,
+     assign(socket,
+       upload_data: :uploaded,
+       modal_data: uploaded_data_for_modal(data, socket.assigns.workout)
+     )}
   end
 
   def handle_event("generate_exercise", _params, socket) do
@@ -103,9 +108,11 @@ defmodule MctjWeb.WorkoutLive.Show do
   def handle_event("complete_set", %{"id" => id}, socket) do
     exercise = Mctj.Exercises.get_exercise!(String.to_integer(id))
 
-    upload_data = if exercise.metadata["is_fingers"] and exercise.weight =="iso" and socket.assigns.workout.sets > exercise.metadata["completed_sets"] do
-      true
-    end
+    upload_data =
+      if exercise.metadata["is_fingers"] and exercise.weight == "iso" and
+           socket.assigns.workout.sets > exercise.metadata["completed_sets"] do
+        :new
+      end
 
     attrs =
       Map.merge(exercise.metadata, %{
@@ -118,14 +125,13 @@ defmodule MctjWeb.WorkoutLive.Show do
     {:noreply,
      assign(socket,
        workout: assign_workout_to_socket(exercise),
-        upload_data: upload_data,
-        exercise: exercise
+       upload_data: upload_data,
+       exercise: exercise
      )}
   end
 
   defp check_sets(completed_sets, workout_sets),
     do: if(completed_sets < workout_sets, do: completed_sets + 1, else: workout_sets)
-
 
   defp generate_workout_by_type(type, exercise \\ nil) do
     if !exercise do
@@ -253,7 +259,7 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp build_and_assign_socket(socket) do
-     {:noreply,
+    {:noreply,
      assign(socket,
        add_exercise: false,
        workout:
@@ -265,7 +271,6 @@ defmodule MctjWeb.WorkoutLive.Show do
   end
 
   defp get_position(exercise) do
-    IO.inspect(exercise, label: :exercise)
     if exercise.metadata["plane"] == "frontal" do
       if String.contains?(exercise.name, "Pull") do
         "overhead"
@@ -275,5 +280,13 @@ defmodule MctjWeb.WorkoutLive.Show do
     else
       "row"
     end
+  end
+
+  defp uploaded_data_for_modal(data, workout) do
+    %{
+      :max_strength_to_weight_ratio => Float.round(data["max_left_hand_pull"] + data["max_right_hand_pull"] / workout.body_weight, 2),
+      :average_strength_to_weight_ratio => Float.round(data["average_left_hand_pull"] + data["average_right_hand_pull"] / workout.body_weight, 2),
+      :tut => data["time_on"] * data["reps"]
+    }
   end
 end
